@@ -39,7 +39,10 @@ public class Player extends Object{
 		Point loc = gp.pHandler.getPlayerLoc(gp.currentMap);
 		worldX = (loc.x)*tileWidth;
 		worldY = (loc.y)*tileHeight;
-		speed = tileWidth/9;
+		maxHealth = 5;
+		health = maxHealth;
+		defaultSpeed = tileWidth/9;
+		speed =defaultSpeed;
 		direction = "down";
 	}
 	
@@ -79,6 +82,7 @@ public class Player extends Object{
 			//CHECKS TILE COLLISION
 			collisionOn = false;
 			gp.colHandler.checkTile(this);
+			gp.colHandler.checkEntity(this, gp.monsters);
 			//CHECKS OBJECT COLLISION
 			int objIndex = gp.colHandler.checkObject(this, true);
 			interactObject(objIndex);
@@ -151,9 +155,9 @@ public class Player extends Object{
 			Object obj = gp.obj[gp.currentMap][objIndex];
 			if(keyH.enterPressed) {
 				if(obj.name.equals("Door")) {
-					if(keys > 0) {
+					if(keys > 3) {
 						gp.obj[objIndex] = null;
-						keys--;
+						keys = 0;
 						gp.ui.addMessage("You opened a door!");
 					}else {
 						gp.ui.setSpeaker(obj);

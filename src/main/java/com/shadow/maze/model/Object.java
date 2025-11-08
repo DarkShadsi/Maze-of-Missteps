@@ -18,8 +18,16 @@ public class Object {
 	public int screenX, screenY;
 	public int worldX, worldY;
 	public int speed;
+	public int defaultSpeed;
+	public int attack;
+	public int maxHealth;
+	public int health;
+	final int player = 0;
+	final int monster = 1;
+	final int consumable = 3;
 		//FOR OBJECTS
 			public String name;
+			public int type;
 			
 	//SOLID AREA
 	public Rectangle solidArea;
@@ -41,12 +49,13 @@ public class Object {
 	public int spriteNum = 1;
 	public int spriteCounter = 0;
 	public int standCounter = 0;
+	public int actionLockCounter = 0;
 	
 	public Object(GamePanel gp) {
 		this.gp = gp;
 		uTool = gp.gameFrame.uTool;
-		int tileWidth = gp.gameFrame.GAMEUNITWIDTH;
-		int tileHeight = gp.gameFrame.GAMEUNITHEIGHT;
+		this.tileWidth = gp.gameFrame.GAMEUNITWIDTH;
+		this.tileHeight = gp.gameFrame.GAMEUNITHEIGHT;
 		solidArea = new Rectangle(0, 0, tileWidth, tileHeight);
 	}
 	
@@ -67,6 +76,30 @@ public class Object {
 	
 	//******************** INTERACTIONS *****************************//
 	public void interactObject(int objIndex) {}
+	public void setAction() {}
+	
+
+	public void update() {
+
+		setAction();
+		checkCollision();
+		
+		if(!collisionOn) {
+			switch(direction) {
+				case "up": worldY -= speed; break;
+				case "down": worldY += speed;break;
+				case "left": worldX -= speed; break;
+				case "right": worldX += speed; break;
+			}
+		}
+		
+		spriteCounter++;
+		if(spriteCounter >= 13) {
+			spriteNum = (spriteNum == 1)? 2: 1;
+			spriteCounter = 0;
+		}
+	}
+	
 	
 	//******************** HELPER METHODS ***************************//
 	public int getCenterX() {
@@ -95,6 +128,82 @@ public class Object {
 			return false;
 		}
 	}
+	public void searchPath() {
+		
+		int startCol = (worldX + solidArea.x)/tileWidth;
+		int startRow = (worldY + solidArea.y)/tileHeight;
+		int goalCol = (gp.player.worldX + gp.player.solidArea.x)/tileWidth;
+		int goalRow = (gp.player.worldY + gp.player.solidArea.y)/tileHeight;
+		
+		gp.pFinder.setNodes(startCol, startRow, goalCol, goalRow);
+		
+		if(gp.pFinder.search()) {
+			//NEXT WORLDX AND WORLDY
+			int nextX = gp.pFinder.pathList.get(0).col * tileWidth;
+			int nextY = gp.pFinder.pathList.get(0).row * tileHeight;
+			
+			//ENTITY'S SOLID AREA POSITION
+			int enLeftX = worldX + solidArea.x;
+			int enRightX = worldX + solidArea.x + solidArea.width;
+			int enTopY = worldY + solidArea.y;
+			int enBottomY = enTopY + solidArea.height;
+			
+			if(enTopY > nextY && enLeftX >= nextX && enRightX < nextX + tileWidth) {
+				direction = "up";
+			}else if(enTopY < nextY && enLeftX >= nextX && enRightX < nextX + tileWidth) {
+				direction = "down";
+			}else if(enTopY >= nextY && enBottomY < nextY + tileHeight) {
+				//left or right
+				if(enLeftX > nextX) {
+					direction = "left";
+				}else if(enLeftX < nextX) {
+					direction = "right";
+				}
+			}else if(enTopY > nextY && enLeftX > nextX) {
+				direction = "up";
+				checkCollision();
+				if(collisionOn) {
+					direction = "left";
+				}
+			}else if(enTopY > nextY && enLeftX < nextX) {
+				checkCollision();
+				if(collisionOn) {
+					direction = "right";
+				}
+			}else if(enTopY < nextY && enLeftX > nextX) {
+				direction = "down";
+				checkCollision();
+				if(collisionOn) {
+					direction = "left";
+				}
+			}else if(enTopY < nextY && enLeftX < nextX) {
+				direction = "down";
+				checkCollision();
+				if(collisionOn) {
+					direction = "right";
+				}
+			}
+		}
+	}
 	
+	public void checkCollision() {
+		
+		//TEMPORARILY CHANGE DIRECTION IF KNOCKBACKED
+		String currentDirection = direction;
+		
+		// CHECKS TILE COLLISION
+		collisionOn = false;
+		gp.colHandler.checkTile(this);
+		gp.colHandler.checkObject(this, false);
+		gp.colHandler.checkEntity(this, gp.monsters);
+		
+		//CHECKS COLLISION WITH THE PLAYER & GIVE DAMAGE UPON CONTACT
+		if(gp.colHandler.checkPlayer(this) && type ==  monster) {
+			gp.player.health -= attack;
+		}
+		
+		direction = currentDirection;
+		
+	}
 	
 }

@@ -32,6 +32,7 @@ public class GamePanel extends JPanel implements Runnable{
 	
 	//OBJECTS
 	public Player player;
+	public Object monsters[][] = new Object[5][10];
 	public Object obj[][] = new Object[5][50];
 	public int currObjIndex[] = new int[50];
 	//MAPS AND TILES
@@ -70,6 +71,7 @@ public class GamePanel extends JPanel implements Runnable{
 		colHandler = new CollisionHandler(this);
 		pFinder = new Pathfinder(this);
 		ui =new UI(this);
+		
 	}
 	
 	//************ UPDATE AND PAINT ******************************//
@@ -89,6 +91,12 @@ public class GamePanel extends JPanel implements Runnable{
 			}
 		}
 		
+		for(Object m: monsters[currentMap]) {
+			if(m != null) {
+				m.draw(g2);
+			}
+		}
+		
 		player.draw(g2);
 		ui.draw(g2);
 		
@@ -97,6 +105,11 @@ public class GamePanel extends JPanel implements Runnable{
 	public void update() {
 		if(gameState == playState) {
 			player.update();
+			for(Object m: monsters[currentMap]) {
+				if(m != null) {
+					m.update();
+				}
+			}
 		}
 	}
 	
@@ -109,6 +122,7 @@ public class GamePanel extends JPanel implements Runnable{
 		gameThread  = new Thread(this);
 		gameThread.setDaemon(true);
 		this.requestFocusInWindow();
+		aSetter.setObjects(currentMap);
 		gameThread.start();
 	}
 	

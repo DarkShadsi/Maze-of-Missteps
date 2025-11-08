@@ -68,18 +68,6 @@ public class Pathfinder {
 				}
 			}
 		}
-
-//		//CHECK INTERACTIVE TILES
-//		for(int i = 0; i < gp.iTile[gp.currentMap].length; i++) {
-//			if(gp.iTile[gp.currentMap][i] != null) {
-//				if(gp.iTile[gp.currentMap][i].destructible) {
-//					int itCol = gp.iTile[gp.currentMap][i].worldX/gp.tileSize;
-//					int itRow = gp.iTile[gp.currentMap][i].worldY/gp.tileSize;
-//					node[itCol][itRow].solid = true;
-//				}
-//			}
-//		}
-		
 		//GET COST
 		for(int row = 0; row < gp.ROWS; row++) {
 			for(int col = 0; col < gp.COLS; col++) {

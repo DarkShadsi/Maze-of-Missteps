@@ -32,7 +32,8 @@ public class GamePanel extends JPanel implements Runnable{
 	
 	//OBJECTS
 	public Player player;
-	public Object obj[] = new Object[50];
+	public Object obj[][] = new Object[5][50];
+	public int currObjIndex[] = new int[50];
 	//MAPS AND TILES
 	public int maxMap = 10;
 	public int currentMap = 0;
@@ -61,12 +62,13 @@ public class GamePanel extends JPanel implements Runnable{
 	//******************* SETTERS / INITIALIZERS ******************//
 	void initObjects() {
 		keyH = new KeyHandler(this);
-		pHandler = new PointHandler();
+		tileM = new TileManager(this);
+		aSetter = new AssetSetter(this);
+		pHandler = new PointHandler(this);
 		player = new Player(this, keyH);
 		tileM = new TileManager(this);
 		colHandler = new CollisionHandler(this);
 		pFinder = new Pathfinder(this);
-		aSetter = new AssetSetter(this);
 		ui =new UI(this);
 	}
 	
@@ -81,7 +83,7 @@ public class GamePanel extends JPanel implements Runnable{
 		
 		tileM.draw(g2);
 		
-		for(Object object: obj) {
+		for(Object object: obj[currentMap]) {
 			if(object != null) {
 				object.draw(g2);
 			}

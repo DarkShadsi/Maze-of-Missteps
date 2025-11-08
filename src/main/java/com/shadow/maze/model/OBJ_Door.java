@@ -12,9 +12,9 @@ public class OBJ_Door extends Object{
 		down1 = uTool.scaleImage("/objects/door.png", gp.gameFrame.GAMEUNITWIDTH, gp.gameFrame.GAMEUNITHEIGHT);
 		
 		solidArea.x = 0;
-		solidArea.y = 16;
+		solidArea.y = gp.gameFrame.GAMEUNITHEIGHT/3;
 		solidArea.width = gp.gameFrame.GAMEUNITWIDTH;
-		solidArea.height = 32;
+		solidArea.height = gp.gameFrame.GAMEUNITHEIGHT - solidArea.y;
 		solidAreaDefaultX = solidArea.x;
 		solidAreaDefaultY = solidArea.y;
 		

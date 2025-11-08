@@ -1,5 +1,6 @@
 package com.shadow.maze.model;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -21,7 +22,7 @@ public class Object {
 			public String name;
 			
 	//SOLID AREA
-	public Rectangle solidArea = new Rectangle(0, 0, 50, 50);
+	public Rectangle solidArea;
 	public int solidAreaDefaultX, solidAreaDefaultY;
 	public boolean collision = false;
 	
@@ -46,6 +47,7 @@ public class Object {
 		uTool = gp.gameFrame.uTool;
 		int tileWidth = gp.gameFrame.GAMEUNITWIDTH;
 		int tileHeight = gp.gameFrame.GAMEUNITHEIGHT;
+		solidArea = new Rectangle(0, 0, tileWidth, tileHeight);
 	}
 	
 	public void draw(Graphics2D g2) {
@@ -57,6 +59,9 @@ public class Object {
 		image = down1;
 		
 		g2.drawImage(image, tempScreenX, tempScreenY, null);
+		
+		g2.setColor(Color.RED);
+		g2.drawRect(tempScreenX + solidArea.x, tempScreenY + solidArea.y, solidArea.width, solidArea.height);
 		
 	}
 	

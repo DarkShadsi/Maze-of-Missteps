@@ -1,5 +1,6 @@
 package com.shadow.maze.util;
 
+import java.awt.Point;
 import java.util.ArrayList;
 
 import com.shadow.maze.view.GamePanel;

@@ -148,7 +148,7 @@ public class Player extends Object{
 	
 	public void interactObject(int objIndex) {
 		if(objIndex != 999) {
-			Object obj = gp.obj[objIndex];
+			Object obj = gp.obj[gp.currentMap][objIndex];
 			if(keyH.enterPressed) {
 				if(obj.name.equals("Door")) {
 					if(keys > 0) {
@@ -164,7 +164,8 @@ public class Player extends Object{
 				if(obj.name.equals("Key")) {
 					keys ++;
 					gp.ui.addMessage("You picked up a key!");
-					gp.obj[objIndex] = null;
+					gp.pHandler.removeGoal(obj.worldX, obj.worldY);
+					gp.obj[gp.currentMap][objIndex] = null;
 				}
 			}
 		}
@@ -174,7 +175,7 @@ public class Player extends Object{
 		int col = (worldX + (tileWidth/2))/tileWidth;
 		int row = (worldY + (tileHeight/2))/tileHeight;
 		
-		Point goal = gp.pHandler.getGoal(gp.currentMap);
+		Point goal = gp.pHandler.getGoal();
 		gp.pFinder.setNodes(col, row, goal.x, goal.y);
 		gp.pFinder.search();
 	}

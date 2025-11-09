@@ -182,6 +182,16 @@ public class Pathfinder {
 		}
 	}
 	
+	public ArrayList<Node> copyPath() {
+		ArrayList<Node> pathCopy = new ArrayList<Node>();
+		
+		for(Node n: pathList) {
+			pathCopy.add(n);
+		}
+		
+		return pathCopy;
+	}
+	
 }
 
 

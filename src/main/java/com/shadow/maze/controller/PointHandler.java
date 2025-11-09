@@ -27,31 +27,29 @@ public class PointHandler {
 			goals[i]= new ArrayList<Point>();
 		}
 		
-		int i = 0;
 		int currLevel = 0;
-		
-		//LEVEL 1
-			//keys
-			randomizeKeys(currLevel);
-			//exit
-			exits[i] = new Point(25, 12);
-			gamePanel.aSetter.placeObject(new OBJ_Door(gamePanel), 25, 12, currLevel);
-			gamePanel.currObjIndex[currLevel]++;
-			i++;
-			currLevel++;
-		//LEVEL 2
-			//keys
-			randomizeKeys(currLevel);
-			exits[i] = new Point(9, 5);
-			i++;
-			currLevel++;
-	}
-	
-	void randomizeKeys(int currLevel) {
+
 		int startCol = 10;
 		int endCol = 39;
 		int startRow = 13;
 		int endRow = 41;
+		
+		//LEVEL 1
+			//keys
+			randomizeKeys(currLevel, startCol, endCol, startRow, endRow);
+			//exit
+			exits[currLevel] = new Point(25, 12);
+			gamePanel.aSetter.placeObject(new OBJ_Door(gamePanel), 25, 12, currLevel);
+			gamePanel.currObjIndex[currLevel]++;
+			currLevel++;
+		//LEVEL 2
+			//keys
+			randomizeKeys(currLevel, startCol, endCol, startRow, endRow);
+			exits[currLevel] = new Point(9, 5);
+			currLevel++;
+	}
+	
+	void randomizeKeys(int currLevel, int startCol, int endCol, int startRow, int endRow) {
 	
 		int x, y;
 		int tileNum;

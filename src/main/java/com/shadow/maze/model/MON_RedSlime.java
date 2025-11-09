@@ -47,33 +47,6 @@ public class MON_RedSlime extends Object{
 
 		actionLockCounter++;
 		searchPath();
-//		if(actionLockCounter >= 120) {
-//			actionLockCounter = 0;
-//			int chase = randomizer.nextInt(10);
-//			if(chase != 1) {
-//				searchPath();
-//			}else {
-//				int dir = randomizer.nextInt(4);
-//				switch (dir) {
-//				case 0:
-//					direction = "up";
-//					break;
-//				case 1:
-//					direction = "down";
-//					break;
-//				case 2:
-//					direction = "left";
-//					break;
-//				case 3:
-//					direction = "right";
-//					break;
-//
-//				default:
-//					break;
-//				}
-//			}
-//		}
-		
 		
 	}
 

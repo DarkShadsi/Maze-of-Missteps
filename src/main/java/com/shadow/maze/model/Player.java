@@ -155,7 +155,7 @@ public class Player extends Object{
 			Object obj = gp.obj[gp.currentMap][objIndex];
 			if(keyH.enterPressed) {
 				if(obj.name.equals("Door")) {
-					if(keys > 3) {
+					if(keys >= 3) {
 						gp.obj[objIndex] = null;
 						keys = 0;
 						gp.ui.addMessage("You opened a door!");
@@ -182,5 +182,6 @@ public class Player extends Object{
 		Point goal = gp.pHandler.getGoal();
 		gp.pFinder.setNodes(col, row, goal.x, goal.y);
 		gp.pFinder.search();
+		gp.tileM.goalPath = gp.pFinder.copyPath();
 	}
 }

@@ -15,7 +15,8 @@ public class TileManager {
 	GamePanel gp;
 	public Tile[] tile;
 	public int mapTileNum[][][];
-	public boolean drawPath = true;
+	public boolean drawPath = false;
+	public ArrayList<Node> goalPath = new ArrayList<>();
 	ArrayList<String> fileNames = new ArrayList<>();
 	ArrayList<String> collisionStatus = new ArrayList<>();
 	
@@ -170,9 +171,7 @@ public class TileManager {
 		
 		if(drawPath) {
 			
-			ArrayList<Node> pathListCopy = new ArrayList<>(gp.pFinder.pathList);
-			
-			for(Node n: pathListCopy) {
+			for(Node n: goalPath) {
 				int worldX = n.col * width;
 				int worldY = n.row * height;
 				int screenX = worldX - gp.player.worldX + gp.player.screenX;

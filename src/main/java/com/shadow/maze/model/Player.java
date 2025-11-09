@@ -39,7 +39,7 @@ public class Player extends Object{
 		Point loc = gp.pHandler.getPlayerLoc(gp.currentMap);
 		worldX = (loc.x)*tileWidth;
 		worldY = (loc.y)*tileHeight;
-		maxHealth = 5;
+		maxHealth = 3;
 		health = maxHealth;
 		defaultSpeed = tileWidth/9;
 		speed =defaultSpeed;
@@ -66,6 +66,13 @@ public class Player extends Object{
 	//******************* UPDATE AND PAINT ***********************//
 	
 	public void update() {
+		if(isInvincible) {
+			invincibleCounter++;
+			if(invincibleCounter >= 60) {
+				invincibleCounter = 0;
+				isInvincible = false;
+			}
+		}
 		if(keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed || keyH.enterPressed) {
 
 			//player movements

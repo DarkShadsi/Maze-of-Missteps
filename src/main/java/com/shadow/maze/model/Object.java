@@ -40,6 +40,7 @@ public class Object {
 	//STATE
 	public String direction;
 	public boolean collisionOn;
+	public boolean isInvincible;
 	
 	//DIALOGUES
 	public String dialogues[][] = new String[10][20];
@@ -50,6 +51,7 @@ public class Object {
 	public int spriteCounter = 0;
 	public int standCounter = 0;
 	public int actionLockCounter = 0;
+	public int invincibleCounter = 0;
 	
 	public Object(GamePanel gp) {
 		this.gp = gp;
@@ -199,7 +201,11 @@ public class Object {
 		
 		//CHECKS COLLISION WITH THE PLAYER & GIVE DAMAGE UPON CONTACT
 		if(gp.colHandler.checkPlayer(this) && type ==  monster) {
-			gp.player.health -= attack;
+			if(!gp.player.isInvincible) {
+				gp.player.health -= attack;
+				gp.player.isInvincible = true;
+				gp.gameFrame.uTool.teleportObject(gp.player, gp);
+			}
 		}
 		
 		direction = currentDirection;

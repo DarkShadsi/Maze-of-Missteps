@@ -5,13 +5,18 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 
+import com.shadow.maze.model.OBJ_Key;
+import com.shadow.maze.model.Object;
 import com.shadow.maze.view.GameFrame;
+import com.shadow.maze.view.GamePanel;
 
 public class UtilityTool {
 	GameFrame gameFrame;
+	Random randomizer = new Random();
 	
 	public UtilityTool(GameFrame gameFrame) {
 		this.gameFrame = gameFrame;
@@ -66,6 +71,27 @@ public class UtilityTool {
 		
 		return cost;
 		
+	}
+	
+	public void teleportObject(Object obj, GamePanel gamePanel) {
+		int x, y;
+		int tileNum;
+		
+		int currLevel = 0;
+
+		int startCol = 10;
+		int endCol = 39;
+		int startRow = 13;
+		int endRow = 41;
+		do {
+			x = randomizer.nextInt(endCol - startCol) + startCol;
+			y = randomizer.nextInt(endRow - startRow) + startRow;
+			tileNum = gamePanel.tileM.mapTileNum[currLevel][x][y];
+		}while(gamePanel.tileM.tile[tileNum].collision);
+		System.out.println(x + " " + y);
+
+		obj.worldX = x * gameFrame.GAMEUNITWIDTH;
+		obj.worldY = y * gameFrame.GAMEUNITHEIGHT;
 	}
 	
 

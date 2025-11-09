@@ -3,6 +3,7 @@ package com.shadow.maze.util;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import com.shadow.maze.view.GameFrame;
@@ -21,9 +22,12 @@ public class UI {
 	String combinedString = "";
 	int charIndex = 0;
 	
+	BufferedImage heart_full_img, key_img;
+	
 	public UI(GamePanel gp) {
 		this.gp = gp;
 		this.gameFrame = gp.gameFrame;
+		initHudImages();
 	}
 	
 	public void draw(Graphics2D g2) {
@@ -32,6 +36,8 @@ public class UI {
 		//PLAY STATE
 		if(gp.gameState == gp.playState) {
 			drawMessages();
+			drawLife();
+			drawKeys();
 		}
 		
 		//DIALOGUE STATE
@@ -125,6 +131,28 @@ public class UI {
 		}
 	}
 	
+	public void drawLife() {
+		int x = gameFrame.GAMEUNITWIDTH/2;
+		int y = gameFrame.GAMEUNITHEIGHT/2;
+		for(int i = 0; i < gp.player.health; i++) {
+			g2.drawImage(heart_full_img, x, y, null);
+			x += gameFrame.GAMEUNITWIDTH;
+		}
+	}
+	
+	public void drawKeys() {
+		int x = gameFrame.GAMEUNITWIDTH/2;
+		int y = (int)(gameFrame.GAMEUNITHEIGHT*1.5);
+		
+		g2.drawImage(key_img, x, y, null);
+		
+		x += gameFrame.GAMEUNITWIDTH;
+		y = (int)(gameFrame.GAMEUNITHEIGHT*2.3);
+		g2.setPaint(Color.WHITE);
+		g2.setFont(g2.getFont().deriveFont(Font.BOLD, 35f));
+		g2.drawString("x" + gp.player.keys, x, y);
+	}
+	
 	public void addMessage(String m) {
 		messages.add(m);
 		messageCounter.add(0);
@@ -132,6 +160,11 @@ public class UI {
 	
 	public void setSpeaker(Object speaker) {
 		this.speaker = speaker;
+	}
+	
+	void initHudImages() {
+		heart_full_img = gameFrame.uTool.scaleImage("/objects/heart_full.png", gameFrame.GAMEUNITWIDTH, gameFrame.GAMEUNITHEIGHT);
+		key_img = gameFrame.uTool.scaleImage("/objects/key.png", gameFrame.GAMEUNITWIDTH, gameFrame.GAMEUNITHEIGHT);
 	}
 	
 }

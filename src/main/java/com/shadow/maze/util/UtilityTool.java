@@ -76,17 +76,11 @@ public class UtilityTool {
 	public void teleportObject(Object obj, GamePanel gamePanel) {
 		int x, y;
 		int tileNum;
-		
-		int currLevel = 0;
-
-		int startCol = 10;
-		int endCol = 39;
-		int startRow = 13;
-		int endRow = 41;
+		int mapAreas[] = gamePanel.pHandler.mapAreas[gamePanel.currentMap];
 		do {
-			x = randomizer.nextInt(endCol - startCol) + startCol;
-			y = randomizer.nextInt(endRow - startRow) + startRow;
-			tileNum = gamePanel.tileM.mapTileNum[currLevel][x][y];
+			x = randomizer.nextInt(mapAreas[1] - mapAreas[0]) + mapAreas[0];
+			y = randomizer.nextInt(mapAreas[3] - mapAreas[2]) + mapAreas[2];
+			tileNum = gamePanel.tileM.mapTileNum[gamePanel.currentMap][x][y];
 		}while(gamePanel.tileM.tile[tileNum].collision);
 		System.out.println(x + " " + y);
 

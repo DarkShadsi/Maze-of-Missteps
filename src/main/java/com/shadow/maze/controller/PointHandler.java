@@ -12,11 +12,13 @@ public class PointHandler {
 	private Point exits[] = new Point[6];
 	private ArrayList<Point> goals[] = new ArrayList[5];
 	private Point pLocs[] = new Point[6];
+	public int mapAreas[][] = new int[5][4];
 	private Random randomizer = new Random();
 	GamePanel gamePanel;
 	
 	public PointHandler(GamePanel gamePanel) {
 		this.gamePanel = gamePanel;
+		initMapAreas();
 		initGoals();
 		initPlayerLocs();
 	}
@@ -28,15 +30,10 @@ public class PointHandler {
 		}
 		
 		int currLevel = 0;
-
-		int startCol = 10;
-		int endCol = 39;
-		int startRow = 13;
-		int endRow = 41;
 		
 		//LEVEL 1
 			//keys
-			randomizeKeys(currLevel, startCol, endCol, startRow, endRow);
+			randomizeKeys(currLevel);
 			//exit
 			exits[currLevel] = new Point(25, 12);
 			gamePanel.aSetter.placeObject(new OBJ_Door(gamePanel), 25, 12, currLevel);
@@ -44,19 +41,21 @@ public class PointHandler {
 			currLevel++;
 		//LEVEL 2
 			//keys
-			randomizeKeys(currLevel, startCol, endCol, startRow, endRow);
+			randomizeKeys(currLevel);
 			exits[currLevel] = new Point(9, 5);
+			gamePanel.aSetter.placeObject(new OBJ_Door(gamePanel), 9, 5, currLevel);
+			gamePanel.currObjIndex[currLevel]++;
 			currLevel++;
 	}
 	
-	void randomizeKeys(int currLevel, int startCol, int endCol, int startRow, int endRow) {
+	void randomizeKeys(int currLevel) {
 	
 		int x, y;
 		int tileNum;
 		for(int count = 0; count < 3; count++) {
 			do {
-				x = randomizer.nextInt(endCol - startCol) + startCol;
-				y = randomizer.nextInt(endRow - startRow) + startRow;
+				x = randomizer.nextInt(mapAreas[currLevel][1] - mapAreas[currLevel][0]) + mapAreas[currLevel][0];
+				y = randomizer.nextInt(mapAreas[currLevel][3] - mapAreas[currLevel][2]) + mapAreas[currLevel][2];
 				tileNum = gamePanel.tileM.mapTileNum[currLevel][x][y];
 			}while(gamePanel.tileM.tile[tileNum].collision);
 			System.out.println(x + " " + y);
@@ -73,6 +72,25 @@ public class PointHandler {
 		i++;
 		//LEVEL 2
 		pLocs[i] = new Point(38, 41);
+	}
+	
+	void initMapAreas() {
+		int level = 0;
+		int startCol = 0;
+		int endCol = 1;
+		int startRow = 2;
+		int endRow = 3; 
+		
+		mapAreas[level][startCol] = 10;
+		mapAreas[level][endCol] = 39;
+		mapAreas[level][startRow] = 13;
+		mapAreas[level][endRow] = 41;
+		
+		level++;
+		mapAreas[level][startCol] = 9;
+		mapAreas[level][endCol] = 40;
+		mapAreas[level][startRow] = 4;
+		mapAreas[level][endRow] = 42;
 	}
 	
 	public Point getPlayerLoc(int index) {

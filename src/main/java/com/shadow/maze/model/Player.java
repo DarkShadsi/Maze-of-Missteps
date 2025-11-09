@@ -44,6 +44,8 @@ public class Player extends Object{
 		defaultSpeed = tileWidth/9;
 		speed =defaultSpeed;
 		direction = "down";
+		defaultInivincibiltyTimer = 60;
+		invincibiltyTimer = defaultInivincibiltyTimer;
 	}
 	
 	
@@ -68,8 +70,11 @@ public class Player extends Object{
 	public void update() {
 		if(isInvincible) {
 			invincibleCounter++;
-			if(invincibleCounter >= 60) {
+			if(invincibleCounter >= invincibiltyTimer) {
 				invincibleCounter = 0;
+				if(invincibiltyTimer != defaultInivincibiltyTimer) {
+					invincibiltyTimer = defaultInivincibiltyTimer;
+				}
 				isInvincible = false;
 			}
 		}
@@ -163,7 +168,7 @@ public class Player extends Object{
 			if(keyH.enterPressed) {
 				if(obj.name.equals("Door")) {
 					if(keys >= 3) {
-						gp.obj[objIndex] = null;
+						gp.obj[gp.currentMap][objIndex] = null;
 						keys = 0;
 						gp.ui.addMessage("You opened a door!");
 					}else {
@@ -176,6 +181,12 @@ public class Player extends Object{
 					keys ++;
 					gp.ui.addMessage("You picked up a key!");
 					gp.pHandler.removeGoal(obj.worldX, obj.worldY);
+					gp.obj[gp.currentMap][objIndex] = null;
+				}else if(obj.name.equals("Heart")) {
+					obj.useItem(this);
+					gp.obj[gp.currentMap][objIndex] = null;
+				}else if(obj.name.equals("Blue Shield")) {
+					obj.useItem(this);
 					gp.obj[gp.currentMap][objIndex] = null;
 				}
 			}

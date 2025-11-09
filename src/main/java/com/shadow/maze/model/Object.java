@@ -28,6 +28,7 @@ public class Object {
 		//FOR OBJECTS
 			public String name;
 			public int type;
+			int value;
 			
 	//SOLID AREA
 	public Rectangle solidArea;
@@ -52,6 +53,8 @@ public class Object {
 	public int standCounter = 0;
 	public int actionLockCounter = 0;
 	public int invincibleCounter = 0;
+	int defaultInivincibiltyTimer = 60;
+	public int invincibiltyTimer = defaultInivincibiltyTimer;
 	
 	public Object(GamePanel gp) {
 		this.gp = gp;
@@ -119,6 +122,8 @@ public class Object {
 	public int getScreenY() {
 		return worldY - gp.player.worldY + gp.player.screenY;
 	}
+	
+	public void useItem(Object obj) {}
 	
 	public boolean isInCamera() {
 		if(getCenterX() + 2*tileWidth > gp.player.worldX - gp.player.screenX &&

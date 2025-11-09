@@ -122,7 +122,7 @@ public class GamePanel extends JPanel implements Runnable{
 		gameThread  = new Thread(this);
 		gameThread.setDaemon(true);
 		this.requestFocusInWindow();
-		aSetter.setObjects(currentMap);
+		aSetter.setObjects();
 		gameThread.start();
 	}
 	
@@ -152,7 +152,7 @@ public class GamePanel extends JPanel implements Runnable{
 			}
 			
 			if(timer >= 1000000000) {
-				System.out.println("FPS: " + drawCounter);
+				//System.out.println("FPS: " + drawCounter);
 				drawCounter = 0;
 				timer = 0;
 			}

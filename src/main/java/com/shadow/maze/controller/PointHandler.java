@@ -87,10 +87,10 @@ public class PointHandler {
 		mapAreas[level][endRow] = 41;
 		
 		level++;
-		mapAreas[level][startCol] = 9;
-		mapAreas[level][endCol] = 40;
-		mapAreas[level][startRow] = 4;
-		mapAreas[level][endRow] = 42;
+		mapAreas[level][startCol] = 10;
+		mapAreas[level][endCol] = 39;
+		mapAreas[level][startRow] = 5;
+		mapAreas[level][endRow] = 41;
 	}
 	
 	public Point getPlayerLoc(int index) {

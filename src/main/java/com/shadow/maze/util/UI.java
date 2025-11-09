@@ -115,7 +115,7 @@ public class UI {
 		for(int i = 0; i < messages.size(); i++) {
 			if(messages.get(i) != null) {
 				g2.setColor(Color.WHITE);
-				g2.setFont(g2.getFont().deriveFont(Font.PLAIN,20f));
+				g2.setFont(g2.getFont().deriveFont(Font.PLAIN,28f));
 				int x = gameFrame.GAMEUNITWIDTH;
 				int y = 5 * gameFrame.GAMEUNITHEIGHT;
 				

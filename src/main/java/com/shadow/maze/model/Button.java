@@ -13,6 +13,7 @@ public class Button extends JButton{
 	ImageIcon icon1, icon2;
 	int width1, height1;
 	int width2, height2;
+	boolean hover = true;
 
     public Button(int x, int y, GameFrame gameFrame, String imageName, int width, int height) {
     	this.gameFrame = gameFrame;
@@ -48,13 +49,21 @@ public class Button extends JButton{
     void addListener() {
     	this.addMouseListener(new MouseAdapter() {
     		public void mouseEntered(MouseEvent e) {
-    			setIcon(icon2);
+    			if(hover) setIcon(icon2);
     		}
     		
     		public void mouseExited(MouseEvent e) {
-    			setIcon(icon1);
+    			if(hover) setIcon(icon1);
     		}
 		});
+    }
+    
+    public void setHover(boolean hover) {
+    	this.hover = hover;
+    }
+    
+    public void changeIcon() {
+    	setIcon((this.getIcon().equals(icon1))? icon2: icon1);
     }
     
 }

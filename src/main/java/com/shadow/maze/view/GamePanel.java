@@ -2,6 +2,7 @@ package com.shadow.maze.view;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
@@ -12,6 +13,7 @@ import com.shadow.maze.controller.KeyHandler;
 import com.shadow.maze.controller.PointHandler;
 import com.shadow.maze.util.UI;
 import com.shadow.maze.model.Player;
+import com.shadow.maze.model.Button;
 import com.shadow.maze.model.Object;
 import com.shadow.maze.util.TileManager;
 
@@ -19,7 +21,9 @@ public class GamePanel extends JPanel implements Runnable{
 	public GameFrame gameFrame;
 	
 	private final int FPS = 60;
+	private boolean drawSubMenu = false;
 	Thread gameThread;
+	BufferedImage subWindow;
 	
 	//HANDLERS
 	public KeyHandler keyH;
@@ -44,6 +48,7 @@ public class GamePanel extends JPanel implements Runnable{
 	//GAME STATES
 	public final int playState = 0;
 	public final int dialogueState = 1;
+	public final int menuState = 2;
 	public int gameState = playState;
 	public int passedLevel = 1;
 	
@@ -53,7 +58,10 @@ public class GamePanel extends JPanel implements Runnable{
 		this.setFocusable(true);
 		
 		initObjects();
+		initButtons();
+		
 		this.addKeyListener(keyH);
+		subWindow = gameFrame.uTool.scaleImage("/backgrounds/subMenu_bg.png", gameFrame.GAMEUNITWIDTH*5, gameFrame.GAMEUNITHEIGHT*7);
 	}
 	
 	
@@ -73,6 +81,87 @@ public class GamePanel extends JPanel implements Runnable{
 		pFinder = new Pathfinder(this);
 		ui =new UI(this);
 		
+	}
+	
+	void initButtons() {
+		double width = 1.3;
+		double height = 1;
+		
+		//DRAW WHEN MENU BUTTON IS TOGGLED
+		if(drawSubMenu) {
+			drawSubMenu();
+		}
+		
+		//DRAWING THE HAMBURGER MENU
+		int x = gameFrame.SCREENWIDTH - (int)(gameFrame.GAMEUNITWIDTH*3);
+		int y = (int)(gameFrame.GAMEUNITHEIGHT/2);
+		width = gameFrame.GAMEUNITHEIGHT*1.5;
+		height = gameFrame.GAMEUNITHEIGHT*1.5;
+		
+		Button hamMenu_btn= new Button(x, y, gameFrame, "hamMenu", (int)width, (int)height);
+		hamMenu_btn.setHover(false);
+		if(drawSubMenu) hamMenu_btn.changeIcon();
+		hamMenu_btn.addActionListener((e)->{
+			gameState = (gameState == playState)? menuState: playState;
+			hamMenu_btn.changeIcon();
+			drawSubMenu = (drawSubMenu)? false : true;
+			redo();
+		});
+		
+		this.add(hamMenu_btn);
+	}
+	
+	void drawSubMenu() {
+		double width = gameFrame.GAMEUNITWIDTH*2.5;
+		double height = gameFrame.GAMEUNITHEIGHT*1.2;
+		int x = gameFrame.SCREENWIDTH - (int)(gameFrame.GAMEUNITWIDTH*5.3);
+		int y = (int)(gameFrame.GAMEUNITHEIGHT*1.5);
+		Button home_btn = new Button(x, y, gameFrame, "subHome", (int)width, (int)height);
+		home_btn.addActionListener((e)->{
+			drawSubMenu = false;
+			redo();
+			gameFrame.showMainMenu();
+		});
+		
+		y += (int)(1.2*gameFrame.GAMEUNITHEIGHT);
+		Button menu_btn = new Button(x, y, gameFrame, "subMenu", (int)width, (int)height);
+		menu_btn.addActionListener((e)->{
+			gameFrame.showMenuPanel();
+		});
+		
+		y += (int)(1.2*gameFrame.GAMEUNITHEIGHT);
+		Button hint_btn = new Button(x, y, gameFrame, "subHint", (int)width, (int)height);
+		hint_btn.addActionListener((e)->{
+			drawSubMenu = false;
+			redo();
+			gameState = playState;
+			if(player.searchPath) {
+				player.searchPath = false;
+				tileM.drawPath = false;
+			}else {
+				player.searchPath = true;
+				tileM.drawPath = true;
+				player.setPath();
+			}
+		});
+		
+		y += (int)(1.2*gameFrame.GAMEUNITHEIGHT);
+		Button exit_btn = new Button(x, y, gameFrame, "subExit", (int)width, (int)height);
+		exit_btn.addActionListener((e)->{
+			System.exit(0);
+		});
+		
+		this.add(exit_btn);
+		this.add(home_btn);
+		this.add(menu_btn);
+		this.add(hint_btn);
+	}
+	
+	void redo() {
+		this.removeAll();
+		initButtons();
+		this.revalidate();
+		this.repaint();
 	}
 	
 	//************ UPDATE AND PAINT ******************************//
@@ -96,6 +185,13 @@ public class GamePanel extends JPanel implements Runnable{
 			if(m != null) {
 				m.draw(g2);
 			}
+		}
+		
+		if(drawSubMenu) {
+			int x = (int)(gameFrame.SCREENWIDTH - gameFrame.GAMEUNITWIDTH*6.5);
+			int y = gameFrame.GAMEUNITHEIGHT/2;
+			
+			g2.drawImage(subWindow, x, y, null);
 		}
 		
 		player.draw(g2);

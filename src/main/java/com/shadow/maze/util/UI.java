@@ -45,6 +45,12 @@ public class UI {
 			drawDialogueScreen();
 		}
 		
+		//MENU STATE
+		else if(gp.gameState == gp.menuState) {
+			drawLife();
+			drawKeys();
+		}
+		
 	}
 	
 	public void drawDialogueScreen() {

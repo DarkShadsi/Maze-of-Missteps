@@ -9,7 +9,6 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 
-import com.shadow.maze.model.OBJ_Key;
 import com.shadow.maze.model.Object;
 import com.shadow.maze.view.GameFrame;
 import com.shadow.maze.view.GamePanel;

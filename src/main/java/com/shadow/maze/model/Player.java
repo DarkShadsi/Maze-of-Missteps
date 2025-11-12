@@ -68,16 +68,8 @@ public class Player extends Object{
 	//******************* UPDATE AND PAINT ***********************//
 	
 	public void update() {
-		if(isInvincible) {
-			invincibleCounter++;
-			if(invincibleCounter >= invincibiltyTimer) {
-				invincibleCounter = 0;
-				if(invincibiltyTimer != defaultInivincibiltyTimer) {
-					invincibiltyTimer = defaultInivincibiltyTimer;
-				}
-				isInvincible = false;
-			}
-		}
+		checkState();
+		
 		if(keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed || keyH.enterPressed) {
 
 			//player movements
@@ -177,15 +169,8 @@ public class Player extends Object{
 					}
 				}
 			}else {
-				if(obj.name.equals("Key")) {
-					keys ++;
-					gp.ui.addMessage("You picked up a key!");
-					gp.pHandler.removeGoal(obj.worldX, obj.worldY);
-					gp.obj[gp.currentMap][objIndex] = null;
-				}else if(obj.name.equals("Heart")) {
-					obj.useItem(this);
-					gp.obj[gp.currentMap][objIndex] = null;
-				}else if(obj.name.equals("Blue Shield")) {
+				if(obj.type == consumable) {
+					if(obj.name.equals("Key")) keys++;
 					obj.useItem(this);
 					gp.obj[gp.currentMap][objIndex] = null;
 				}
@@ -201,5 +186,26 @@ public class Player extends Object{
 		gp.pFinder.setNodes(col, row, goal.x, goal.y);
 		gp.pFinder.search();
 		gp.tileM.goalPath = gp.pFinder.copyPath();
+	}
+	
+	void checkState() {
+		if(isInvincible) {
+			invincibleCounter++;
+			if(invincibleCounter >= invincibiltyTimer) {
+				invincibleCounter = 0;
+				if(invincibiltyTimer != defaultInivincibiltyTimer) {
+					invincibiltyTimer = defaultInivincibiltyTimer;
+				}
+				isInvincible = false;
+			}
+		}
+		if(isSlowed) {
+			slowCounter++;
+			if(slowCounter >= slowTime) {
+				slowCounter = 0;
+				speed = defaultSpeed;
+				isSlowed = false;
+			}
+		}
 	}
 }

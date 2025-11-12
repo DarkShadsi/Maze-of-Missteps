@@ -112,12 +112,12 @@ public class UI {
 	}
 	
 	void drawMessages() {
+		g2.setColor(Color.WHITE);
 		for(int i = 0; i < messages.size(); i++) {
 			if(messages.get(i) != null) {
-				g2.setColor(Color.WHITE);
 				g2.setFont(g2.getFont().deriveFont(Font.PLAIN,28f));
 				int x = gameFrame.GAMEUNITWIDTH;
-				int y = 5 * gameFrame.GAMEUNITHEIGHT;
+				int y = 5 * gameFrame.GAMEUNITHEIGHT + (i * gameFrame.GAMEUNITHEIGHT);
 				
 				g2.drawString(messages.get(i), x, y);
 				messageCounter.set(i, messageCounter.get(i)+1);

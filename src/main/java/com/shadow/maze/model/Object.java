@@ -42,6 +42,7 @@ public class Object {
 	public String direction;
 	public boolean collisionOn;
 	public boolean isInvincible;
+	public boolean isSlowed = false;
 	
 	//DIALOGUES
 	public String dialogues[][] = new String[10][20];
@@ -55,6 +56,8 @@ public class Object {
 	public int invincibleCounter = 0;
 	int defaultInivincibiltyTimer = 60;
 	public int invincibiltyTimer = defaultInivincibiltyTimer;
+	public int slowTime = 0;
+	public int slowCounter = 0;
 	
 	public Object(GamePanel gp) {
 		this.gp = gp;

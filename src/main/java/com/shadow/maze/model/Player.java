@@ -41,8 +41,9 @@ public class Player extends Object{
 		worldY = (loc.y)*tileHeight;
 		maxHealth = 3;
 		health = maxHealth;
-		defaultSpeed = tileWidth/9;
+		defaultSpeed = tileWidth/12;
 		speed =defaultSpeed;
+		sprintSpeed = tileWidth/8;
 		keys = 0;
 		direction = "down";
 		defaultInivincibiltyTimer = 60;
@@ -72,7 +73,13 @@ public class Player extends Object{
 		checkState();
 		
 		if(keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed || keyH.enterPressed) {
-
+			
+			if(keyH.shiftPressed) {
+				speed = sprintSpeed;
+			}else {
+				speed = defaultSpeed;
+			}
+			
 			//player movements
 			if(keyH.upPressed) {
 				direction = "up";

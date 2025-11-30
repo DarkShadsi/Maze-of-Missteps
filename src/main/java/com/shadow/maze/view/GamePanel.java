@@ -38,6 +38,7 @@ public class GamePanel extends JPanel implements Runnable{
 	public Player player;
 	public Object monsters[][] = new Object[5][10];
 	public Object obj[][] = new Object[5][50];
+	public Button hamMenu_btn;
 	public int currObjIndex[] = new int[50];
 	//MAPS AND TILES
 	public int maxMap = 10;
@@ -97,7 +98,7 @@ public class GamePanel extends JPanel implements Runnable{
 		width = gameFrame.GAMEUNITHEIGHT*1.5;
 		height = gameFrame.GAMEUNITHEIGHT*1.5;
 		
-		Button hamMenu_btn= new Button(x, y, gameFrame, "hamMenu", (int)width, (int)height);
+		hamMenu_btn= new Button(x, y, gameFrame, "hamMenu", (int)width, (int)height);
 		hamMenu_btn.setHover(false);
 		if(drawSubMenu) hamMenu_btn.changeIcon();
 		hamMenu_btn.addActionListener((e)->{
@@ -117,12 +118,8 @@ public class GamePanel extends JPanel implements Runnable{
 		int y = (int)(gameFrame.GAMEUNITHEIGHT*1.5);
 		Button home_btn = new Button(x, y, gameFrame, "subHome", (int)width, (int)height);
 		home_btn.addActionListener((e)->{
-			drawSubMenu = false;
-			player.searchPath = false;
-			tileM.drawPath = false;
-			redo();
-			gameFrame.showMainMenu();
 			stopGame();
+			gameFrame.showMainMenu();
 		});
 		
 		y += (int)(1.2*gameFrame.GAMEUNITHEIGHT);
@@ -166,6 +163,15 @@ public class GamePanel extends JPanel implements Runnable{
 		initButtons();
 		this.revalidate();
 		this.repaint();
+	}
+	
+	public void stopGame() {
+		stopThread();
+		drawSubMenu = false;
+		player.searchPath = false;
+		tileM.drawPath = false;
+		currentMap = -1;
+		redo();
 	}
 	
 	//************ UPDATE AND PAINT ******************************//
@@ -214,7 +220,7 @@ public class GamePanel extends JPanel implements Runnable{
 		}
 	}
 	
-	public void stopGame() {
+	public void stopThread() {
 		gameThread.interrupt();
 		try {
 			gameThread.join();
@@ -230,7 +236,7 @@ public class GamePanel extends JPanel implements Runnable{
 
 	    // Stop previous thread safely
 	    if (gameThread != null && gameThread.isAlive()) {
-	        stopGame();
+	        stopThread();
 	    }
 
 	    if(currentMap != level-1) {
@@ -262,15 +268,15 @@ public class GamePanel extends JPanel implements Runnable{
 	            lastTime = now;
 
 	            while (delta >= 1) {
-	                update();      // game logic
-	                repaint();     // requests EDT repaint
+	                update();      
+	                repaint();     
 	                delta--;
 	            }
 
-	            Thread.sleep(1);  // yields + interruptible
+	            Thread.sleep(1); 
 	        }
 	    } catch (InterruptedException e) {
-	        // thread stopping
+	        
 	    }
 
 	    System.out.println("Game thread stopped.");

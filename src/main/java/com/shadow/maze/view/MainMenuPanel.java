@@ -33,7 +33,7 @@ public class MainMenuPanel extends JPanel{
 		
 		menu = new Button(x, y, gameFrame, "menu", width, height);
 		menu.addActionListener((e)->{
-			gameFrame.showMenuPanel();
+			gameFrame.showMenuPanel(0);
 		});
 		
 		x += 4*gameFrame.GAMEUNITWIDTH;

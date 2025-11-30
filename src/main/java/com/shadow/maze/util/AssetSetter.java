@@ -1,9 +1,12 @@
 package com.shadow.maze.util;
 
+import java.awt.Point;
 import java.util.Random;
 
 import com.shadow.maze.model.MON_RedSlime;
+import com.shadow.maze.model.OBJ_Door;
 import com.shadow.maze.model.OBJ_Heart;
+import com.shadow.maze.model.OBJ_Key;
 import com.shadow.maze.model.OBJ_Mud;
 import com.shadow.maze.model.OBJ_Shield_Blue;
 import com.shadow.maze.model.OBJ_SpikeTrap;
@@ -22,25 +25,13 @@ public class AssetSetter {
 		this.unitHeight = gp.gameFrame.GAMEUNITHEIGHT;
 	}
 	
-	public void setObjects() {
+	public void setObjects(int currLevel) {
 		mapAreas = gp.pHandler.mapAreas;
-		int currLevel = 0;
 		
-		//LEVEL 1 MONSTERS
+		gp.currObjIndex[currLevel] = 0;
+		setGoal(currLevel);
 		randomizeMonsterLoc(currLevel);
-		//LEVEL 1 POWER-UPS
 		randomizePowerUps(currLevel);
-		//LEVEL 1 DEBUFFS
-		randomizeDebuffs(currLevel);
-		
-		
-		
-		currLevel++;
-		//LEVEL 2 MONSTERS
-		randomizeMonsterLoc(currLevel);
-		//LEVEL 2 POWER-UPS
-		randomizePowerUps(currLevel);
-		//LEVEL 2 DEBUFFS
 		randomizeDebuffs(currLevel);
 	}
 	
@@ -48,6 +39,13 @@ public class AssetSetter {
 		gp.obj[currLevel][gp.currObjIndex[currLevel]] = obj;
 		gp.obj[currLevel][gp.currObjIndex[currLevel]].worldX = x*unitWidth;
 		gp.obj[currLevel][gp.currObjIndex[currLevel]].worldY = y*unitHeight;
+	}
+	
+	void setGoal(int currLevel) {
+		//keys
+		randomizeKeys(currLevel);
+		//exit
+		
 	}
 	
 	void randomizeMonsterLoc(int currLevel) {
@@ -110,6 +108,37 @@ public class AssetSetter {
 			} else {
 			    placeObject(new OBJ_SpikeTrap(gp), x, y, currLevel);
 			}
+			gp.currObjIndex[currLevel]++;
+		}
+	}
+	
+
+	void randomizeKeys(int currLevel) {
+	
+		int x, y;
+		int tileNum;
+		for(int count = 0; count < 3; count++) {
+			do {
+				x = randomizer.nextInt(mapAreas[currLevel][1] - mapAreas[currLevel][0]) + mapAreas[currLevel][0];
+				y = randomizer.nextInt(mapAreas[currLevel][3] - mapAreas[currLevel][2]) + mapAreas[currLevel][2];
+				tileNum = gp.tileM.mapTileNum[currLevel][x][y];
+			}while(gp.tileM.tile[tileNum].collision);
+			System.out.println(x + " " + y);
+			gp.aSetter.placeObject(new OBJ_Key(gp), x, y, currLevel);
+			gp.currObjIndex[currLevel]++;
+			gp.pHandler.goals[currLevel].add( new Point(x, y));			
+		}
+	}
+	
+	void placeExit(int currLevel) {
+		switch(currLevel) {
+		case 0:
+			gp.pHandler.exits[currLevel] = new Point(25, 12);
+			placeObject(new OBJ_Door(gp), 25, 12, currLevel);
+			gp.currObjIndex[currLevel]++;
+		case 1:
+			gp.pHandler.exits[currLevel] = new Point(9, 5);
+			placeObject(new OBJ_Door(gp), 9, 5, currLevel);
 			gp.currObjIndex[currLevel]++;
 		}
 	}

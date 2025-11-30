@@ -43,6 +43,7 @@ public class Player extends Object{
 		health = maxHealth;
 		defaultSpeed = tileWidth/9;
 		speed =defaultSpeed;
+		keys = 0;
 		direction = "down";
 		defaultInivincibiltyTimer = 60;
 		invincibiltyTimer = defaultInivincibiltyTimer;

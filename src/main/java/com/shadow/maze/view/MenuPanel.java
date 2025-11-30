@@ -14,6 +14,8 @@ public class MenuPanel extends JPanel{
 	Button backButton;
 	BufferedImage mainBackground = null;
 	
+	int prevPanel;
+	
 	
 	public MenuPanel(GameFrame gameFrame) {
 		this.gameFrame = gameFrame;
@@ -33,12 +35,20 @@ public class MenuPanel extends JPanel{
 		
 		backButton = new Button(x, y, gameFrame, "back", width, height);
 		backButton.addActionListener((e)->{
-			gameFrame.showMainMenu();
+			if(prevPanel == 0) {
+				gameFrame.showMainMenu();
+			}else {
+				gameFrame.startGame(gameFrame.gamePanel.currentMap + 1);
+			}
 		});
 		
 		
 		this.add(backButton);
 		
+	}
+	
+	public void setPrevPanel(int prevPanel) {
+		this.prevPanel = prevPanel;
 	}
 	
 	//******************** PAINT ***********************//

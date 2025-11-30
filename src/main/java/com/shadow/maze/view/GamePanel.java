@@ -42,7 +42,7 @@ public class GamePanel extends JPanel implements Runnable{
 	public int currObjIndex[] = new int[50];
 	//MAPS AND TILES
 	public int maxMap = 10;
-	public int currentMap = 0;
+	public int currentMap = -1;
 	public int ROWS = 50, COLS = 50;
 	
 	//GAME STATES
@@ -119,14 +119,19 @@ public class GamePanel extends JPanel implements Runnable{
 		Button home_btn = new Button(x, y, gameFrame, "subHome", (int)width, (int)height);
 		home_btn.addActionListener((e)->{
 			drawSubMenu = false;
+			player.searchPath = false;
+			tileM.drawPath = false;
 			redo();
 			gameFrame.showMainMenu();
+			stopGame();
 		});
 		
 		y += (int)(1.2*gameFrame.GAMEUNITHEIGHT);
 		Button menu_btn = new Button(x, y, gameFrame, "subMenu", (int)width, (int)height);
 		menu_btn.addActionListener((e)->{
-			gameFrame.showMenuPanel();
+			drawSubMenu = false;
+			redo();
+			gameFrame.showMenuPanel(1);
 		});
 		
 		y += (int)(1.2*gameFrame.GAMEUNITHEIGHT);
@@ -210,50 +215,67 @@ public class GamePanel extends JPanel implements Runnable{
 		}
 	}
 	
+	public void stopGame() {
+		gameThread.interrupt();
+		try {
+			gameThread.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	
 	//************THREAD THAT HANDLES EVERY UPDATES ON THE SCREEN*************//
 	
 	public void startGameThread(int level) {
-		currentMap = level-1;
-		player.setDefaultValues();
-		gameThread  = new Thread(this);
-		gameThread.setDaemon(true);
-		this.requestFocusInWindow();
-		aSetter.setObjects();
-		gameThread.start();
+
+	    // Stop previous thread safely
+	    if (gameThread != null && gameThread.isAlive()) {
+	        stopGame();
+	    }
+
+	    if(currentMap != level-1) {
+		    currentMap = level - 1;
+		    player.setDefaultValues();
+		    aSetter.setObjects(currentMap);
+	    }
+	    gameState = playState;
+
+	    // Start new update loop thread
+	    gameThread = new Thread(this);
+	    this.requestFocusInWindow();
+	    gameThread.start();
 	}
+
 	
 	@Override
 	public void run() {
-		
-		double drawInterval = 1000000000/FPS;
-		double delta = 0;
-		long lastTime = System.nanoTime(); 
-		long currentTime;
-		int timer = 0, drawCounter = 0;
-		
-		while(gameThread != null) {
-			
-			currentTime = System.nanoTime();
-			delta += (currentTime - lastTime )/drawInterval;
-			timer += (currentTime - lastTime );
-			lastTime = currentTime;
-			
-			if(delta >= 1) {
+	    final double drawInterval = 1_000_000_000.0 / FPS;
+	    double delta = 0;
 
-				update();
-				repaint();
-				
-				delta--;
-				drawCounter++;
-			}
-			
-			if(timer >= 1000000000) {
-				//System.out.println("FPS: " + drawCounter);
-				drawCounter = 0;
-				timer = 0;
-			}
-		}
+	    long lastTime = System.nanoTime();
+
+	    try {
+	        while (!Thread.currentThread().isInterrupted()) {
+
+	            long now = System.nanoTime();
+	            delta += (now - lastTime) / drawInterval;
+	            lastTime = now;
+
+	            while (delta >= 1) {
+	                update();      // game logic
+	                repaint();     // requests EDT repaint
+	                delta--;
+	            }
+
+	            Thread.sleep(1);  // yields + interruptible
+	        }
+	    } catch (InterruptedException e) {
+	        // thread stopping
+	    }
+
+	    System.out.println("Game thread stopped.");
 	}
+
 	
 }

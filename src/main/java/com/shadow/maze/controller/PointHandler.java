@@ -2,18 +2,14 @@ package com.shadow.maze.controller;
 
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.Random;
 
-import com.shadow.maze.model.OBJ_Door;
-import com.shadow.maze.model.OBJ_Key;
 import com.shadow.maze.view.GamePanel;
 
 public class PointHandler {
-	private Point exits[] = new Point[6];
-	private ArrayList<Point> goals[] = new ArrayList[5];
+	public Point exits[] = new Point[6];
+	public ArrayList<Point> goals[] = new ArrayList[5];
 	private Point pLocs[] = new Point[6];
 	public int mapAreas[][] = new int[5][4];
-	private Random randomizer = new Random();
 	GamePanel gamePanel;
 	
 	public PointHandler(GamePanel gamePanel) {
@@ -28,44 +24,9 @@ public class PointHandler {
 		for(int i = 0; i < 5; i++) {
 			goals[i]= new ArrayList<Point>();
 		}
-		
-		int currLevel = 0;
-		
-		//LEVEL 1
-			//keys
-			randomizeKeys(currLevel);
-			//exit
-			exits[currLevel] = new Point(25, 12);
-			gamePanel.aSetter.placeObject(new OBJ_Door(gamePanel), 25, 12, currLevel);
-			gamePanel.currObjIndex[currLevel]++;
-			currLevel++;
-		//LEVEL 2
-			//keys
-			randomizeKeys(currLevel);
-			exits[currLevel] = new Point(9, 5);
-			gamePanel.aSetter.placeObject(new OBJ_Door(gamePanel), 9, 5, currLevel);
-			gamePanel.currObjIndex[currLevel]++;
-			currLevel++;
 	}
 	
-	void randomizeKeys(int currLevel) {
-	
-		int x, y;
-		int tileNum;
-		for(int count = 0; count < 3; count++) {
-			do {
-				x = randomizer.nextInt(mapAreas[currLevel][1] - mapAreas[currLevel][0]) + mapAreas[currLevel][0];
-				y = randomizer.nextInt(mapAreas[currLevel][3] - mapAreas[currLevel][2]) + mapAreas[currLevel][2];
-				tileNum = gamePanel.tileM.mapTileNum[currLevel][x][y];
-			}while(gamePanel.tileM.tile[tileNum].collision);
-			System.out.println(x + " " + y);
-			gamePanel.aSetter.placeObject(new OBJ_Key(gamePanel), x, y, currLevel);
-			gamePanel.currObjIndex[currLevel]++;
-			goals[currLevel].add( new Point(x, y));			
-		}
-	}
-	
-	void initPlayerLocs() {
+	public void initPlayerLocs() {
 		int i = 0;
 		//LEVEL 1
 		pLocs[i] = new Point(25, 41);

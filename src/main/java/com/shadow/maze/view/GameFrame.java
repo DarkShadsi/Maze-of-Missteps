@@ -15,7 +15,7 @@ public class GameFrame extends JFrame {
     private CardLayout cardLayout;
     private JPanel panelHolder;
     private MainMenuPanel mainMenuPanel;
-    private GamePanel gamePanel;
+    public GamePanel gamePanel;
     private MenuPanel menuPanel;
     private LevelsPanel levelsPanel;
 	public UtilityTool uTool;
@@ -101,7 +101,8 @@ public class GameFrame extends JFrame {
         showPanel("MainMenu");
     }
     
-    public void showMenuPanel() {
+    public void showMenuPanel(int prevPanel) {
+    	menuPanel.setPrevPanel(prevPanel);
     	showPanel("MenuPanel");
     }
     

@@ -8,6 +8,8 @@ public class OBJ_SpikeTrap extends Object{
 		
 		name = "Spike Trap";
 		type = consumable;
+		subType = debuff;
+		
 		value = 1;
 		
 		down1 = gp.gameFrame.uTool.scaleImage("/objects/spike_trap.png", gp.gameFrame.GAMEUNITWIDTH, gp.gameFrame.GAMEUNITHEIGHT);

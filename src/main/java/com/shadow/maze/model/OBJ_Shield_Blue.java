@@ -8,6 +8,7 @@ public class OBJ_Shield_Blue extends Object{
 		
 		name = "Blue Shield";
 		type = consumable;
+		subType = buff;
 		value = 180;
 		
 		down1 = gp.gameFrame.uTool.scaleImage("/objects/shield_blue.png", gp.gameFrame.GAMEUNITWIDTH, gp.gameFrame.GAMEUNITHEIGHT);

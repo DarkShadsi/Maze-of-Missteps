@@ -8,6 +8,7 @@ public class OBJ_Mud extends Object{
 		
 		name = "Mud";
 		type = consumable;
+		subType = debuff;
 		value = 2;
 		
 		down1 = gp.gameFrame.uTool.scaleImage("/objects/mud.png", gp.gameFrame.GAMEUNITWIDTH, gp.gameFrame.GAMEUNITHEIGHT);

@@ -25,9 +25,12 @@ public class Object {
 	final int player = 0;
 	final int monster = 1;
 	final int consumable = 3;
+	public final int buff = 4;
+	public final int debuff = 5;
 		//FOR OBJECTS
 			public String name;
 			public int type;
+			public int subType;
 			int value;
 			
 	//SOLID AREA

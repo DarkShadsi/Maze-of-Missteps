@@ -38,7 +38,6 @@ public class GamePanel extends JPanel implements Runnable{
 	public Player player;
 	public Object monsters[][] = new Object[5][10];
 	public Object obj[][] = new Object[5][50];
-	public Object debuffs[][] = new Object[5][10];
 	public int currObjIndex[] = new int[50];
 	//MAPS AND TILES
 	public int maxMap = 10;

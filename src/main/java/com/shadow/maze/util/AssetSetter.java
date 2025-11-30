@@ -45,7 +45,7 @@ public class AssetSetter {
 		//keys
 		randomizeKeys(currLevel);
 		//exit
-		
+		placeExit(currLevel);
 	}
 	
 	void randomizeMonsterLoc(int currLevel) {
@@ -136,10 +136,12 @@ public class AssetSetter {
 			gp.pHandler.exits[currLevel] = new Point(25, 12);
 			placeObject(new OBJ_Door(gp), 25, 12, currLevel);
 			gp.currObjIndex[currLevel]++;
+			break;
 		case 1:
 			gp.pHandler.exits[currLevel] = new Point(9, 5);
 			placeObject(new OBJ_Door(gp), 9, 5, currLevel);
 			gp.currObjIndex[currLevel]++;
+			break;
 		}
 	}
 	

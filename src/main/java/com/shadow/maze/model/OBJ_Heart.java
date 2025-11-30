@@ -11,6 +11,7 @@ public class OBJ_Heart extends Object{
 		name = "Heart";
 		value = 1;
 		type = consumable;
+		subType = buff;
 		
 		down1 = gp.gameFrame.uTool.scaleImage("/objects/heart_full.png", gp.gameFrame.GAMEUNITWIDTH, gp.gameFrame.GAMEUNITHEIGHT);
 		

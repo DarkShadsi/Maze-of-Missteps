@@ -1,9 +1,9 @@
 package com.shadow.maze.util;
 
-import java.awt.Point;
 import java.util.ArrayList;
 
 import com.shadow.maze.view.GamePanel;
+import com.shadow.maze.model.Object;
 
 public class Pathfinder {
 	GamePanel gp;
@@ -31,7 +31,6 @@ public class Pathfinder {
 	}
 	
 	public void resetNodes() {
-		
 		for(int row = 0; row < gp.ROWS; row++) {
 			for(int col = 0; col < gp.COLS; col++) {
 				node[col][row].open = false;
@@ -68,13 +67,16 @@ public class Pathfinder {
 				}
 			}
 		}
-		//GET COST
-		for(int row = 0; row < gp.ROWS; row++) {
-			for(int col = 0; col < gp.COLS; col++) {
-				getCost(node[col][row]);
+		
+		for(Object obj: gp.obj[gp.currentMap]) {
+			if(obj != null) {
+				if(obj.subType == obj.debuff) {
+					int col = obj.worldX/gp.gameFrame.GAMEUNITWIDTH;
+					int row = obj.worldY/gp.gameFrame.GAMEUNITHEIGHT;
+					node[col][row].solid = true;
+				}
 			}
 		}
-		
 	}
 	
 	void getCost(Node node) {
@@ -106,21 +108,25 @@ public class Pathfinder {
 			
 			//OPEN THE UPPER NODE
 			if(row-1 >= 0) {
+				getCost(node[col][row-1]);
 				openNode(node[col][row-1]);
 			}
 			
 			//OPEN THE LOWER NODE
 			if(row+1 < gp.ROWS) {
+				getCost(node[col][row+1]);
 				openNode(node[col][row+1]);
 			}
 			
 			//OPEN THE LEFT NODE
 			if(col-1 >= 0) {
+				getCost(node[col-1][row]);
 				openNode(node[col-1][row]);
 			}
 			
 			//OPEN THE RIGHT NODE
 			if(col+1 < gp.COLS) {
+				getCost(node[col+1][row]);
 				openNode(node[col+1][row]);
 			}
 

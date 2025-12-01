@@ -16,6 +16,17 @@ public class Player extends Object{
 	//PERSONAL ITEMS
 	public int keys = 0;
 	
+	//PLAYER SPECIFIC
+	public int sprintSpeed;
+	public int sprintDuration;
+	public int sprintCooldown;
+	public int hintDuration;
+	public int hintCooldown;
+	int hintTimer = 0;
+	int sprintTimer = 0;
+	public int sprintCounter = 0;
+	public int hintCounter = 0;
+	
 	public Player(GamePanel gp, KeyHandler keyH) {
 		super(gp);
 		this.keyH = keyH;
@@ -41,9 +52,13 @@ public class Player extends Object{
 		worldY = (loc.y)*tileHeight;
 		maxHealth = 3;
 		health = maxHealth;
-		defaultSpeed = tileWidth/12;
-		speed =defaultSpeed;
+		defaultSpeed = tileWidth/16;
+		speed = defaultSpeed;
 		sprintSpeed = tileWidth/8;
+		sprintDuration = 60;
+		sprintCooldown = 180;
+		hintDuration = 180;
+		hintCooldown = 300;
 		keys = 0;
 		direction = "down";
 		defaultInivincibiltyTimer = 60;
@@ -74,12 +89,6 @@ public class Player extends Object{
 		
 		if(keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed || keyH.enterPressed) {
 			
-			if(keyH.shiftPressed) {
-				speed = sprintSpeed;
-			}else {
-				speed = defaultSpeed;
-			}
-			
 			//player movements
 			if(keyH.upPressed) {
 				direction = "up";
@@ -108,8 +117,17 @@ public class Player extends Object{
 				case "right": worldX += speed; break;
 				}
 				//	SEARCH PATH EVERYTIME POSITION CHANGES
-				if(searchPath) {
+				if(searchPath && hintCounter < hintDuration) {
 					setPath();
+					hintCounter++;
+				}else {
+					searchPath = false;
+					gp.tileM.drawPath = false;
+					hintTimer++;
+					if(hintTimer == hintCooldown) {
+						hintCounter = 0;
+						hintTimer = 0;
+					}
 				}
 				
 				spriteCounter ++;
@@ -168,12 +186,15 @@ public class Player extends Object{
 			if(keyH.enterPressed) {
 				if(obj.name.equals("Door")) {
 					if(keys >= 3) {
+						gp.gameState = gp.stopped;
 						gp.obj[gp.currentMap][objIndex] = null;
 						keys = 0;
-						gp.ui.addMessage("You opened a door!");
+						upgrade();
+						gp.gameFrame.showResultsPanel(true);
 					}else {
 						gp.ui.setSpeaker(obj);
 						gp.gameState = gp.dialogueState;
+						gp.redo();
 					}
 				}
 			}else {
@@ -191,9 +212,11 @@ public class Player extends Object{
 		int row = (worldY + (tileHeight/2))/tileHeight;
 		
 		Point goal = gp.pHandler.getGoal();
-		gp.pFinder.setNodes(col, row, goal.x, goal.y);
-		gp.pFinder.search();
-		gp.tileM.goalPath = gp.pFinder.copyPath();
+		if(goal != null) {
+			gp.pFinder.setNodes(col, row, goal.x, goal.y);
+			gp.pFinder.search();
+			gp.tileM.goalPath = gp.pFinder.copyPath();
+		}
 	}
 	
 	void checkState() {
@@ -214,6 +237,56 @@ public class Player extends Object{
 				speed = defaultSpeed;
 				isSlowed = false;
 			}
+		}else if(keyH.shiftPressed && sprintCounter < sprintDuration) {
+			speed = sprintSpeed;
+			sprintCounter++;
+		}else if(!keyH.shiftPressed){
+			sprintTimer++;
+			if(sprintTimer == sprintCooldown) {
+				sprintCounter = 0;
+				sprintTimer = 0;
+			}
+			if(!isSlowed) {
+				speed = defaultSpeed;
+			}
+		}else {
+			if(!isSlowed) {
+				speed = defaultSpeed;
+			}
 		}
+		
+		
+		if(health <= 0) {
+			gp.gameState = gp.stopped;
+			gp.gameFrame.showResultsPanel(false);
+			gp.stopGame();
+		}
+	}
+	
+	void upgrade() {
+		
+		int addHp = 0;
+		int addSprintDuration = 0;
+		int addhintDuration = 0;
+		int addHintCooldown = 0;
+		
+		if(gp.currentMap == gp.passedLevel) {
+			addHp = 1;
+			addSprintDuration = 20;
+			addhintDuration = 20;
+			addHintCooldown = 20;
+			gp.passedLevel++;
+		}
+		
+		String text = "Max HP: + " + addHp + 
+						"/Sprint Duration: + " + String.format("%.2f", (double)addSprintDuration/sprintDuration) + "%" +
+						"/Hint Duration: + " + String.format("%.2f", (double)addhintDuration/hintDuration) + "%" +
+						"/Hint Cooldown: + " + String.format("%.2f", (double)addHintCooldown/hintCooldown) + "%";
+
+		maxHealth += addHp;
+		sprintDuration += addSprintDuration;
+		hintCooldown += addHintCooldown;
+		hintDuration += addhintDuration;
+		gp.ui.setText(text);
 	}
 }

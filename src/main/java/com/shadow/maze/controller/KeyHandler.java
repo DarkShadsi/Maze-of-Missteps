@@ -50,7 +50,7 @@ public class KeyHandler implements KeyListener{
 			if(gp.player.searchPath) {
 				gp.player.searchPath = false;
 				gp.tileM.drawPath = false;
-			}else {
+			}else if(gp.player.hintCounter < gp.player.hintDuration){
 				gp.player.searchPath = true;
 				gp.tileM.drawPath = true;
 				gp.player.setPath();

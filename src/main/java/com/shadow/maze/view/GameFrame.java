@@ -18,6 +18,7 @@ public class GameFrame extends JFrame {
     public GamePanel gamePanel;
     private MenuPanel menuPanel;
     private LevelsPanel levelsPanel;
+    private ResultPanel resultPanel;
 	public UtilityTool uTool;
     
     public int SCREENWIDTH;
@@ -33,6 +34,7 @@ public class GameFrame extends JFrame {
         initTools();
         initPanels();
         showMainMenu();
+        //showResultsPanel(true);
         setVisible(true);
     }
     
@@ -51,11 +53,13 @@ public class GameFrame extends JFrame {
         gamePanel = new GamePanel(this);
         menuPanel = new MenuPanel(this);
         levelsPanel = new LevelsPanel(this);
+        resultPanel = new ResultPanel(this);
         
         addPanel(mainMenuPanel, "MainMenu");
         addPanel(gamePanel, "GamePanel");
         addPanel(menuPanel, "MenuPanel");
         addPanel(levelsPanel, "LevelsPanel");
+        addPanel(resultPanel, "ResultPanel");
         
         this.add(panelHolder);
     }
@@ -110,17 +114,19 @@ public class GameFrame extends JFrame {
     	showPanel("LevelsPanel");
     }
     
+    public void showResultsPanel(boolean passed) {
+    	resultPanel.setResult(passed);
+    	resultPanel.drawUpgrades();
+    	showPanel("ResultPanel");
+    }
 
     public void startGame(int level) {
+    	gamePanel.stopGame();
     	if(level <= gamePanel.passedLevel + 1) {
             showPanel("GamePanel");
             gamePanel.startGameThread(level);
     	}else {
     		levelsPanel.drawMessage();
     	}
-    }
-    
-    public int getPassedLevel() {
-    	return gamePanel.passedLevel;
     }
 }

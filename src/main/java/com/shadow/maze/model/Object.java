@@ -19,7 +19,6 @@ public class Object {
 	public int worldX, worldY;
 	public int speed;
 	public int defaultSpeed;
-	public int sprintSpeed;
 	public int attack;
 	public int maxHealth;
 	public int health;

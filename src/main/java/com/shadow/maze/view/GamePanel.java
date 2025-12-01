@@ -22,6 +22,7 @@ public class GamePanel extends JPanel implements Runnable{
 	
 	private final int FPS = 60;
 	private boolean drawSubMenu = false;
+	private volatile boolean running = false;
 	Thread gameThread;
 	BufferedImage subWindow;
 	
@@ -49,8 +50,9 @@ public class GamePanel extends JPanel implements Runnable{
 	public final int playState = 0;
 	public final int dialogueState = 1;
 	public final int menuState = 2;
+	public final int stopped = 3;
 	public int gameState = playState;
-	public int passedLevel = 1;
+	public int passedLevel = 0;
 	
 	public GamePanel(GameFrame gameFrame) {
 		this.gameFrame = gameFrame;
@@ -108,7 +110,9 @@ public class GamePanel extends JPanel implements Runnable{
 			redo();
 		});
 		
-		this.add(hamMenu_btn);
+		if(gameState != dialogueState) {
+			this.add(hamMenu_btn);
+		}
 	}
 	
 	void drawSubMenu() {
@@ -158,7 +162,7 @@ public class GamePanel extends JPanel implements Runnable{
 		this.add(hint_btn);
 	}
 	
-	void redo() {
+	public void redo() {
 		this.removeAll();
 		initButtons();
 		this.revalidate();
@@ -210,7 +214,7 @@ public class GamePanel extends JPanel implements Runnable{
 	}
 	
 	public void update() {
-		if(gameState == playState) {
+		if(gameState == playState && currentMap != -1) {
 			player.update();
 			for(Object m: monsters[currentMap]) {
 				if(m != null) {
@@ -221,14 +225,15 @@ public class GamePanel extends JPanel implements Runnable{
 	}
 	
 	public void stopThread() {
-		gameThread.interrupt();
-		try {
-			gameThread.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+	    running = false;
+	    if (gameThread != null) {
+	        try {
+	            gameThread.join();
+	        } catch (InterruptedException e) {
+	            Thread.currentThread().interrupt();
+	        }
+	    }
 	}
-	
 	
 	//************THREAD THAT HANDLES EVERY UPDATES ON THE SCREEN*************//
 	
@@ -245,6 +250,7 @@ public class GamePanel extends JPanel implements Runnable{
 		    aSetter.setObjects(currentMap);
 	    }
 	    gameState = playState;
+	    running = true;
 
 	    // Start new update loop thread
 	    gameThread = new Thread(this);
@@ -259,28 +265,22 @@ public class GamePanel extends JPanel implements Runnable{
 	    double delta = 0;
 
 	    long lastTime = System.nanoTime();
+	    
+	    while (running) {
+	        long now = System.nanoTime();
+	        delta += (now - lastTime) / drawInterval;
+	        lastTime = now;
 
-	    try {
-	        while (!Thread.currentThread().isInterrupted()) {
-
-	            long now = System.nanoTime();
-	            delta += (now - lastTime) / drawInterval;
-	            lastTime = now;
-
-	            while (delta >= 1) {
-	                update();      
-	                repaint();     
-	                delta--;
-	            }
-
-	            Thread.sleep(1); 
+	        while (delta >= 1 && gameState != stopped) {
+	            update();
+	            repaint();
+	            delta--;
 	        }
-	    } catch (InterruptedException e) {
-	        
+
+	        try { Thread.sleep(1); } catch (InterruptedException e) { }
 	    }
 
 	    System.out.println("Game thread stopped.");
 	}
 
-	
 }

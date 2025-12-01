@@ -1,5 +1,6 @@
 package com.shadow.maze.util;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -21,6 +22,7 @@ public class UI {
 	ArrayList<Integer> messageCounter = new ArrayList<>();
 	String combinedString = "";
 	int charIndex = 0;
+	String text;
 	
 	BufferedImage heart_full_img, key_img;
 	
@@ -101,6 +103,7 @@ public class UI {
 			
 			if(gp.gameState == gp.dialogueState) {
 				gp.gameState = gp.playState;
+				gp.redo();
 			}
 			
 		}
@@ -112,10 +115,28 @@ public class UI {
 	}
 	
 	public void drawSubWindow(int x, int y, int width, int height) {
-		g2.setColor(Color.DARK_GRAY);
-		g2.fillRect(x, y, width, height);
-		
+
+	    //SHADOW
+	    Color shadowColor = new Color(0, 0, 0, 120);
+	    g2.setColor(shadowColor);
+	    g2.fillRoundRect(x + 5, y + 5, width, height, 30, 30);
+
+	    //BACKGROUND
+	    Color bgColor = new Color(20, 20, 20, 200);
+	    g2.setColor(bgColor);
+	    g2.fillRoundRect(x, y, width, height, 30, 30);
+
+	    // BORDER
+	    g2.setColor(Color.WHITE);
+	    g2.setStroke(new BasicStroke(4));
+	    g2.drawRoundRect(x, y, width, height, 30, 30);
+
+	    //INNER BORDER
+	    g2.setColor(new Color(200, 200, 200));
+	    g2.setStroke(new BasicStroke(2));
+	    g2.drawRoundRect(x + 4, y + 4, width - 8, height - 8, 26, 26);
 	}
+
 	
 	void drawMessages() {
 		g2.setColor(Color.WHITE);
@@ -173,4 +194,19 @@ public class UI {
 		key_img = gameFrame.uTool.scaleImage("/objects/key.png", gameFrame.GAMEUNITWIDTH, gameFrame.GAMEUNITHEIGHT);
 	}
 	
+	public void setText(String text) {
+		this.text = text;
+	}
+	
+	public void drawUpgrades(Graphics2D g2d) {
+		int x = gameFrame.GAMEUNITWIDTH * 13;
+		int y = gameFrame.GAMEUNITHEIGHT * 7;
+		
+		g2d.setPaint(Color.WHITE);
+		g2d.setFont(g2d.getFont().deriveFont(35f));
+		for(String line: text.split("/")) {
+			g2d.drawString(line, x, y);
+			y += 40;
+		}
+	}
 }

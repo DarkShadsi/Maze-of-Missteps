@@ -71,13 +71,15 @@ public class PointHandler {
 	
 	public Point getGoal() {
 		int index = 20;
-		if(gamePanel.player.keys < 3) {
+		if(gamePanel.player.keys < 3 && !goals[gamePanel.currentMap].isEmpty()) {
 			int pX = gamePanel.player.worldX/gamePanel.gameFrame.GAMEUNITWIDTH;
 			int pY = gamePanel.player.worldY/gamePanel.gameFrame.GAMEUNITHEIGHT;
 			index = gamePanel.gameFrame.uTool.getNearest(pX, pY, goals[gamePanel.currentMap]);
 			return goals[gamePanel.currentMap].get(index);
-		}else {
+		}else if(gamePanel.player.keys >= 3){
 			return exits[gamePanel.currentMap];
+		}else {
+			return null;
 		}
 	}
 }

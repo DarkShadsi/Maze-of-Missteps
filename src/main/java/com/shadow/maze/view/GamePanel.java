@@ -44,6 +44,7 @@ public class GamePanel extends JPanel implements Runnable{
 	//MAPS AND TILES
 	public int maxMap = 10;
 	public int currentMap = -1;
+	public int lastMap;
 	public int ROWS = 50, COLS = 50;
 	
 	//GAME STATES
@@ -52,6 +53,7 @@ public class GamePanel extends JPanel implements Runnable{
 	public final int menuState = 2;
 	public final int stopped = 3;
 	public int gameState = playState;
+	public boolean wasPaused = false;
 	public int passedLevel = 0;
 	
 	public GamePanel(GameFrame gameFrame) {
@@ -132,6 +134,8 @@ public class GamePanel extends JPanel implements Runnable{
 		menu_btn.addActionListener((e)->{
 			drawSubMenu = false;
 			redo();
+			wasPaused = true;
+			lastMap = currentMap;
 			gameFrame.showMenuPanel(1);
 		});
 		

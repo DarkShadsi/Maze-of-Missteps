@@ -32,7 +32,7 @@ public class Button extends JButton{
         
     }
     
-    void loadIcons(String imageName, int width, int height) {
+    public void loadIcons(String imageName, int width, int height) {
     	//NORMAL
         BufferedImage img = gameFrame.uTool.scaleImage("/buttons/btn_" + imageName + ".png", width, height);
         width1 = img.getWidth();
@@ -65,5 +65,6 @@ public class Button extends JButton{
     public void changeIcon() {
     	setIcon((this.getIcon().equals(icon1))? icon2: icon1);
     }
+ 
     
 }

@@ -37,7 +37,7 @@ public class MainMenuPanel extends JPanel{
 		});
 		
 		x += 4*gameFrame.GAMEUNITWIDTH;
-		startButton = new Button(x, y, gameFrame, "new", width, height);
+		startButton = new Button(x, y, gameFrame, "start", width, height);
 		startButton.addActionListener((e)->{
 			gameFrame.showLevelsPanel();
 		});

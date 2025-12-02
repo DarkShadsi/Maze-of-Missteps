@@ -122,6 +122,10 @@ public class GameFrame extends JFrame {
 
     public void startGame(int level) {
     	gamePanel.stopGame();
+    	if(gamePanel.wasPaused) {
+    		gamePanel.currentMap = gamePanel.lastMap;
+    		gamePanel.wasPaused = false;
+    	}
     	if(level <= gamePanel.passedLevel + 1) {
             showPanel("GamePanel");
             gamePanel.startGameThread(level);

@@ -18,7 +18,7 @@ public class MON_RedSlime extends Object{
 		name = "Red Slime";
 		direction = "down";
 		type = monster;
-		defaultSpeed = 1;
+		defaultSpeed = 2;
 		speed = defaultSpeed;
 		attack = 1;
 		

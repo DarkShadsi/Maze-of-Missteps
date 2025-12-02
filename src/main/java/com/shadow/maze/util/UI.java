@@ -24,7 +24,7 @@ public class UI {
 	int charIndex = 0;
 	String text;
 	
-	BufferedImage heart_full_img, key_img;
+	BufferedImage heart_full_img, key_img, boots;
 	
 	public UI(GamePanel gp) {
 		this.gp = gp;
@@ -40,6 +40,7 @@ public class UI {
 			drawMessages();
 			drawLife();
 			drawKeys();
+			drawStats();
 		}
 		
 		//DIALOGUE STATE
@@ -51,6 +52,7 @@ public class UI {
 		else if(gp.gameState == gp.menuState) {
 			drawLife();
 			drawKeys();
+			drawStats();
 		}
 		
 	}
@@ -180,6 +182,43 @@ public class UI {
 		g2.drawString("x" + gp.player.keys, x, y);
 	}
 	
+	public void drawStats() {
+		int width = gameFrame.GAMEUNITWIDTH*8;
+		int height = gameFrame.GAMEUNITHEIGHT/4;
+		int x = gameFrame.uTool.getCenter(gameFrame.COLS, 8) + gameFrame.GAMEUNITWIDTH;
+		int y = gameFrame.GAMEUNITHEIGHT;
+		double unit = (double)width/gp.player.sprintDuration;
+		int sprintWidth = (int)((gp.player.sprintDuration - gp.player.sprintCounter) * unit);
+		
+		g2.drawImage(boots, x - gameFrame.GAMEUNITWIDTH, y - (gameFrame.GAMEUNITHEIGHT/2), null);
+		
+		g2.setPaint(Color.GRAY);
+		g2.fillRect(x, y, width, height);
+		
+		g2.setPaint(Color.BLUE);
+		g2.fillRect(x, y, sprintWidth, height);
+		
+
+		width = gameFrame.GAMEUNITWIDTH*5;
+		x = gameFrame.uTool.getCenter(gameFrame.COLS, 5);
+		y += gameFrame.GAMEUNITWIDTH;
+		g2.setPaint(Color.GRAY);
+		g2.fillRect(x, y, width, height);
+		
+		if(gp.player.searchPath) {
+			unit = (double)width/gp.player.hintDuration;
+			int hintWidth = (int)((gp.player.hintDuration - gp.player.hintCounter) * unit);
+			g2.setPaint(Color.YELLOW);
+			g2.fillRect(x, y, hintWidth, height);
+			
+		}else {
+			unit = (double)width/gp.player.hintCooldown;
+			int hintTimerWidth = (int)(gp.player.hintTimer * unit);
+			g2.setPaint(Color.GREEN);
+			g2.fillRect(x, y, hintTimerWidth, height);
+		}
+	}
+	
 	public void addMessage(String m) {
 		messages.add(m);
 		messageCounter.add(0);
@@ -192,6 +231,7 @@ public class UI {
 	void initHudImages() {
 		heart_full_img = gameFrame.uTool.scaleImage("/objects/heart_full.png", gameFrame.GAMEUNITWIDTH, gameFrame.GAMEUNITHEIGHT);
 		key_img = gameFrame.uTool.scaleImage("/objects/key.png", gameFrame.GAMEUNITWIDTH, gameFrame.GAMEUNITHEIGHT);
+		boots = gameFrame.uTool.scaleImage("/objects/boots.png", gameFrame.GAMEUNITWIDTH, gameFrame.GAMEUNITHEIGHT);
 	}
 	
 	public void setText(String text) {
@@ -199,7 +239,7 @@ public class UI {
 	}
 	
 	public void drawUpgrades(Graphics2D g2d) {
-		int x = gameFrame.GAMEUNITWIDTH * 13;
+		int x = gameFrame.GAMEUNITWIDTH * 12;
 		int y = gameFrame.GAMEUNITHEIGHT * 7;
 		
 		g2d.setPaint(Color.WHITE);

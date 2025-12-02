@@ -61,6 +61,8 @@ public class Object {
 	public int invincibiltyTimer = defaultInivincibiltyTimer;
 	public int slowTime = 0;
 	public int slowCounter = 0;
+	public int updateTime = 3;
+	public int updateCounter = 0;
 	
 	public Object(GamePanel gp) {
 		this.gp = gp;
@@ -94,8 +96,10 @@ public class Object {
 
 		setAction();
 		checkCollision();
+		updateCounter++;
 		
-		if(!collisionOn) {
+		if(!collisionOn && updateCounter%updateTime == 0) {
+			updateCounter = 1;
 			switch(direction) {
 				case "up": worldY -= speed; break;
 				case "down": worldY += speed;break;

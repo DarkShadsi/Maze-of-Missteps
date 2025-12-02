@@ -19,11 +19,9 @@ public class Player extends Object{
 	//PLAYER SPECIFIC
 	public int sprintSpeed;
 	public int sprintDuration;
-	public int sprintCooldown;
 	public int hintDuration;
 	public int hintCooldown;
-	int hintTimer = 0;
-	int sprintTimer = 0;
+	public int hintTimer = 0;
 	public int sprintCounter = 0;
 	public int hintCounter = 0;
 	
@@ -47,21 +45,28 @@ public class Player extends Object{
 	}
 	
 	public void setDefaultValues() {
-		Point loc = gp.pHandler.getPlayerLoc(gp.currentMap);
-		worldX = (loc.x)*tileWidth;
-		worldY = (loc.y)*tileHeight;
 		maxHealth = 3;
 		health = maxHealth;
 		defaultSpeed = tileWidth/16;
 		speed = defaultSpeed;
 		sprintSpeed = tileWidth/8;
-		sprintDuration = 60;
-		sprintCooldown = 180;
+		sprintDuration = 180;
 		hintDuration = 180;
 		hintCooldown = 300;
 		keys = 0;
 		direction = "down";
 		defaultInivincibiltyTimer = 60;
+		invincibiltyTimer = defaultInivincibiltyTimer;
+	}
+	
+	public void setStartValues() {
+		Point loc = gp.pHandler.getPlayerLoc(gp.currentMap);
+		worldX = (loc.x)*tileWidth;
+		worldY = (loc.y)*tileHeight;
+		health = maxHealth;
+		keys = 0;
+		direction = "down";
+		sprintCounter = 0;
 		invincibiltyTimer = defaultInivincibiltyTimer;
 	}
 	
@@ -119,15 +124,6 @@ public class Player extends Object{
 				//	SEARCH PATH EVERYTIME POSITION CHANGES
 				if(searchPath && hintCounter < hintDuration) {
 					setPath();
-					hintCounter++;
-				}else {
-					searchPath = false;
-					gp.tileM.drawPath = false;
-					hintTimer++;
-					if(hintTimer == hintCooldown) {
-						hintCounter = 0;
-						hintTimer = 0;
-					}
 				}
 				
 				spriteCounter ++;
@@ -237,22 +233,26 @@ public class Player extends Object{
 				speed = defaultSpeed;
 				isSlowed = false;
 			}
-		}else if(keyH.shiftPressed && sprintCounter < sprintDuration) {
+		}else if(keyH.shiftPressed && sprintCounter < sprintDuration && (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed)) {
 			speed = sprintSpeed;
 			sprintCounter++;
-		}else if(!keyH.shiftPressed){
-			sprintTimer++;
-			if(sprintTimer == sprintCooldown) {
-				sprintCounter = 0;
-				sprintTimer = 0;
-			}
-			if(!isSlowed) {
-				speed = defaultSpeed;
-			}
 		}else {
 			if(!isSlowed) {
 				speed = defaultSpeed;
 			}
+		}
+		
+		if(searchPath && hintCounter < hintDuration) {
+			hintCounter++;
+		}else {
+			if(hintTimer < hintCooldown) {
+				hintTimer++;
+			}
+			if(hintTimer == hintCooldown) {
+				hintCounter = 0;
+			}
+			searchPath = false;
+			gp.tileM.drawPath = false;
 		}
 		
 		
@@ -271,7 +271,7 @@ public class Player extends Object{
 		
 		if(gp.currentMap == gp.passedLevel) {
 			addHp = 1;
-			addSprintDuration = 20;
+			addSprintDuration = gp.currentMap*60;
 			addhintDuration = 20;
 			addHintCooldown = 20;
 			gp.passedLevel++;

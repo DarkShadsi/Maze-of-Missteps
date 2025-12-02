@@ -53,6 +53,7 @@ public class KeyHandler implements KeyListener{
 			}else if(gp.player.hintCounter < gp.player.hintDuration){
 				gp.player.searchPath = true;
 				gp.tileM.drawPath = true;
+				gp.player.hintTimer = 0;
 				gp.player.setPath();
 			}
 		}else if(code == KeyEvent.VK_SHIFT) {

@@ -3,6 +3,7 @@ package com.shadow.maze.util;
 import java.awt.Point;
 import java.util.Random;
 
+import com.shadow.maze.model.MON_Bat;
 import com.shadow.maze.model.MON_RedSlime;
 import com.shadow.maze.model.OBJ_Door;
 import com.shadow.maze.model.OBJ_Heart;
@@ -54,19 +55,20 @@ public class AssetSetter {
 		int x, y;
 		int tileNum;
 		int maxEnemies = randomizer.nextInt(currLevel + 2) + 3;
-		int speed = 1, attack = 1;
+		int updateTime = 4, attack = 1;
 
 		if(currLevel == 1) {
 			attack = 2;
 		}else if(currLevel == 2) {
-			speed = 2;
 			attack = 2;
+			updateTime = 3;
 		}else if(currLevel == 3) {
-			speed = 2;
 			attack = 3;
+			updateTime = 2;
+			updateTime = 2;
 		}else if(currLevel == 4){
-			speed = 3;
 			attack = 3;
+			updateTime = 1;
 		}
 		
 		for(int count = 0; count < maxEnemies; count++) {
@@ -76,16 +78,16 @@ public class AssetSetter {
 				tileNum = gp.tileM.mapTileNum[gp.currentMap][x][y];
 			}while(gp.tileM.tile[tileNum].collision);
 			
-			if(count < 8) {
+			if(count < 6) {
 				gp.monsters[currLevel][count] = new MON_RedSlime(gp);
 			}else {
-				gp.monsters[currLevel][count] = new MON_RedSlime(gp);
+				gp.monsters[currLevel][count] = new MON_Bat(gp);
 			}
 			
 			gp.monsters[currLevel][count].worldX = x*unitWidth;
 			gp.monsters[currLevel][count].worldY = y*unitHeight;
 			gp.monsters[currLevel][count].attack = attack;
-			gp.monsters[currLevel][count].speed = speed;
+			gp.monsters[currLevel][count].updateTime = updateTime;;
 		}
 	}
 	

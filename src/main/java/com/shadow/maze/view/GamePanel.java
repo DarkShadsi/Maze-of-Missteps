@@ -61,6 +61,7 @@ public class GamePanel extends JPanel implements Runnable{
 		
 		initObjects();
 		initButtons();
+		player.setDefaultValues();
 		
 		this.addKeyListener(keyH);
 		subWindow = gameFrame.uTool.scaleImage("/backgrounds/subMenu_bg.png", gameFrame.GAMEUNITWIDTH*5, gameFrame.GAMEUNITHEIGHT*7);
@@ -146,6 +147,7 @@ public class GamePanel extends JPanel implements Runnable{
 			}else {
 				player.searchPath = true;
 				tileM.drawPath = true;
+				player.hintTimer = 0;
 				player.setPath();
 			}
 		});
@@ -246,7 +248,7 @@ public class GamePanel extends JPanel implements Runnable{
 
 	    if(currentMap != level-1) {
 		    currentMap = level - 1;
-		    player.setDefaultValues();
+		    player.setStartValues();
 		    aSetter.setObjects(currentMap);
 	    }
 	    gameState = playState;

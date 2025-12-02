@@ -78,7 +78,7 @@ public class AssetSetter {
 				tileNum = gp.tileM.mapTileNum[gp.currentMap][x][y];
 			}while(gp.tileM.tile[tileNum].collision);
 			
-			if(count < 6) {
+			if(count < 5) {
 				gp.monsters[currLevel][count] = new MON_RedSlime(gp);
 			}else {
 				gp.monsters[currLevel][count] = new MON_Bat(gp);

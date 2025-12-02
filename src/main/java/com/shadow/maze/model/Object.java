@@ -78,8 +78,24 @@ public class Object {
 		int tempScreenX = getScreenX();
 		int tempScreenY = getScreenY();
 		
-		image = down1;
-		
+		if(this.type == monster) {
+			switch(direction) {
+			case "up":
+				image = (spriteNum == 1)? up1: up2;
+				break;
+			case "down":
+				image = (spriteNum == 1)? down1: down2;
+				break;
+			case "left":
+				image = (spriteNum == 1)? left1: left2;
+				break;
+			case "right":
+				image = (spriteNum == 1)? right1: right2;
+				break;
+			}
+		}else {
+			image = down1;
+		}
 		g2.drawImage(image, tempScreenX, tempScreenY, null);
 		
 		g2.setColor(Color.RED);
@@ -98,8 +114,24 @@ public class Object {
 		checkCollision();
 		updateCounter++;
 		
-		if(!collisionOn && updateCounter%updateTime == 0) {
+		if(updateCounter%updateTime == 0) {
 			updateCounter = 1;
+			if(collisionOn) {
+				switch(direction) {
+				case "up":
+					direction = "down";
+					break;
+				case "down":
+					direction = "up";
+					break;
+				case "left":
+					direction = "right";
+					break;
+				case "right":
+					direction = "left";
+					break;
+				}
+			}
 			switch(direction) {
 				case "up": worldY -= speed; break;
 				case "down": worldY += speed;break;

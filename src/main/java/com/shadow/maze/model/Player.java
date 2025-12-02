@@ -259,7 +259,6 @@ public class Player extends Object{
 		if(health <= 0) {
 			gp.gameState = gp.stopped;
 			gp.gameFrame.showResultsPanel(false);
-			gp.stopGame();
 		}
 	}
 	

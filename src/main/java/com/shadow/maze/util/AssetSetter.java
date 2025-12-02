@@ -28,11 +28,13 @@ public class AssetSetter {
 	public void setObjects(int currLevel) {
 		mapAreas = gp.pHandler.mapAreas;
 		
-		gp.currObjIndex[currLevel] = 0;
-		setGoal(currLevel);
-		randomizeMonsterLoc(currLevel);
-		randomizePowerUps(currLevel);
-		randomizeDebuffs(currLevel);
+		if(currLevel >= 0) {
+			gp.currObjIndex[currLevel] = 0;
+			setGoal(currLevel);
+			randomizeMonsterLoc(currLevel);
+			randomizePowerUps(currLevel);
+			randomizeDebuffs(currLevel);
+		}
 	}
 	
 	public void placeObject(Object obj, int x, int y, int currLevel) {
@@ -51,17 +53,39 @@ public class AssetSetter {
 	void randomizeMonsterLoc(int currLevel) {
 		int x, y;
 		int tileNum;
+		int maxEnemies = randomizer.nextInt(currLevel + 2) + 3;
+		int speed = 1, attack = 1;
+
+		if(currLevel == 1) {
+			attack = 2;
+		}else if(currLevel == 2) {
+			speed = 2;
+			attack = 2;
+		}else if(currLevel == 3) {
+			speed = 2;
+			attack = 3;
+		}else if(currLevel == 4){
+			speed = 3;
+			attack = 3;
+		}
 		
-		for(int count = 0; count < 3; count++) {
+		for(int count = 0; count < maxEnemies; count++) {
 			do {
 				x = randomizer.nextInt(mapAreas[currLevel][1] - mapAreas[currLevel][0]) + mapAreas[currLevel][0];
 				y = randomizer.nextInt(mapAreas[currLevel][3] - mapAreas[currLevel][2]) + mapAreas[currLevel][2];
 				tileNum = gp.tileM.mapTileNum[gp.currentMap][x][y];
 			}while(gp.tileM.tile[tileNum].collision);
-			System.out.println(x + " " + y);
-			gp.monsters[currLevel][count] = new MON_RedSlime(gp);
+			
+			if(count < 8) {
+				gp.monsters[currLevel][count] = new MON_RedSlime(gp);
+			}else {
+				gp.monsters[currLevel][count] = new MON_RedSlime(gp);
+			}
+			
 			gp.monsters[currLevel][count].worldX = x*unitWidth;
 			gp.monsters[currLevel][count].worldY = y*unitHeight;
+			gp.monsters[currLevel][count].attack = attack;
+			gp.monsters[currLevel][count].speed = speed;
 		}
 	}
 	
@@ -69,7 +93,7 @@ public class AssetSetter {
 		int x, y;
 		int tileNum;
 		
-		int numberOfPowerUps = randomizer.nextInt(3) + 10;
+		int numberOfPowerUps = randomizer.nextInt(3 + currLevel) + 2;
 		int powerUp = 0;
 		for(int i = 0; i < numberOfPowerUps; i++) {
 			do {
@@ -93,7 +117,7 @@ public class AssetSetter {
 		int x, y;
 		int tileNum;
 		
-		int numberOfDebuffs = randomizer.nextInt(3) + 2;
+		int numberOfDebuffs = randomizer.nextInt(3 + currLevel) + currLevel + 1;
 		int debuff = 0;
 		for(int i = 0; i < numberOfDebuffs; i++) {
 			do {

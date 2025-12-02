@@ -31,8 +31,11 @@ public class TileManager {
 				
 		
 		//LOAD MAPS
-		loadMap("/data/maps/maze1.txt", 0);
-		loadMap("/data/maps/maze2.txt", 1);
+		loadMap("/data/maps/maze3.txt", 0);
+		loadMap("/data/maps/maze4.txt", 1);
+		loadMap("/data/maps/maze1.txt", 2);
+		loadMap("/data/maps/maze2.txt", 3);
+		loadMap("/data/maps/maze5.txt", 4);
 	}
 	
 	public void getTileImage() {

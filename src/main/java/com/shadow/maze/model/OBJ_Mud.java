@@ -16,7 +16,7 @@ public class OBJ_Mud extends Object{
 	
 	public void useItem(Object user) {
 		gp.ui.addMessage("You stepped on a sticky mud");
-		user.speed -= value;
+		user.speed = user.defaultSpeed - value;
 		user.isSlowed = true;
 		user.slowTime = 180;
 	}

@@ -69,14 +69,14 @@ public class AssetSetter {
 		int x, y;
 		int tileNum;
 		
-		int numberOfPowerUps = randomizer.nextInt(3) + 2;
+		int numberOfPowerUps = randomizer.nextInt(3) + 10;
 		int powerUp = 0;
 		for(int i = 0; i < numberOfPowerUps; i++) {
 			do {
 				x = randomizer.nextInt(mapAreas[currLevel][1] - mapAreas[currLevel][0]) + mapAreas[currLevel][0];
 				y = randomizer.nextInt(mapAreas[currLevel][3] - mapAreas[currLevel][2]) + mapAreas[currLevel][2];
 				tileNum = gp.tileM.mapTileNum[gp.currentMap][x][y];
-			}while(gp.tileM.tile[tileNum].collision);
+			}while(gp.tileM.tile[tileNum].collision || gp.colHandler.checkOverlapObject(x, y));
 			
 			powerUp = randomizer.nextInt(2);
 			if (powerUp == 0) {
@@ -100,7 +100,7 @@ public class AssetSetter {
 				x = randomizer.nextInt(mapAreas[currLevel][1] - mapAreas[currLevel][0]) + mapAreas[currLevel][0];
 				y = randomizer.nextInt(mapAreas[currLevel][3] - mapAreas[currLevel][2]) + mapAreas[currLevel][2];
 				tileNum = gp.tileM.mapTileNum[gp.currentMap][x][y];
-			}while(gp.tileM.tile[tileNum].collision);
+			}while(gp.tileM.tile[tileNum].collision || gp.colHandler.checkOverlapObject(x, y));
 			
 			debuff = randomizer.nextInt(2);
 			if (debuff == 0) {
@@ -133,13 +133,28 @@ public class AssetSetter {
 	void placeExit(int currLevel) {
 		switch(currLevel) {
 		case 0:
+			gp.pHandler.exits[currLevel] = new Point(35, 24);
+			placeObject(new OBJ_Door(gp), 35, 24, currLevel);
+			gp.currObjIndex[currLevel]++;
+			break;
+		case 1:
+			gp.pHandler.exits[currLevel] = new Point(25, 40);
+			placeObject(new OBJ_Door(gp), 25, 40, currLevel);
+			gp.currObjIndex[currLevel]++;
+			break;
+		case 2:
 			gp.pHandler.exits[currLevel] = new Point(25, 12);
 			placeObject(new OBJ_Door(gp), 25, 12, currLevel);
 			gp.currObjIndex[currLevel]++;
 			break;
-		case 1:
+		case 3:
 			gp.pHandler.exits[currLevel] = new Point(9, 5);
 			placeObject(new OBJ_Door(gp), 9, 5, currLevel);
+			gp.currObjIndex[currLevel]++;
+			break;
+		case 4:
+			gp.pHandler.exits[currLevel] = new Point(25, 48);
+			placeObject(new OBJ_Door(gp), 25, 48, currLevel);
 			gp.currObjIndex[currLevel]++;
 			break;
 		}

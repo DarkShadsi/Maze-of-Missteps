@@ -1,5 +1,6 @@
 package com.shadow.maze.util;
 
+import com.shadow.maze.view.GameFrame;
 import com.shadow.maze.view.GamePanel;
 import com.shadow.maze.model.Object;
 
@@ -106,6 +107,20 @@ public class CollisionHandler {
 		}
 
 		return index;
+	}
+	
+	public boolean checkOverlapObject(int x, int y) {
+		boolean hasOverlap = false;
+		
+		for(Object obj: gp.obj[gp.currentMap]) {
+			if(obj != null) {
+				if(obj.worldX == x*unitWidth && obj.worldY == y*unitHeight) {
+					hasOverlap = true;
+				}
+			}
+		}
+		
+		return hasOverlap;
 	}
 
 	public int checkEntity(Object entity, Object[][] target) {

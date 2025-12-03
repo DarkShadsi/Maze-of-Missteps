@@ -87,8 +87,10 @@ public class AssetSetter {
 			gp.monsters[currLevel][count].worldX = x*unitWidth;
 			gp.monsters[currLevel][count].worldY = y*unitHeight;
 			gp.monsters[currLevel][count].attack = attack;
-			gp.monsters[currLevel][count].updateTime = updateTime;;
+			gp.monsters[currLevel][count].updateTime = updateTime;
+			gp.monsters[currLevel][count].stunDuration = gp.monsters[currLevel][count].stunDuration/updateTime;
 		}
+		
 	}
 	
 	void randomizePowerUps(int currLevel) {
@@ -149,7 +151,6 @@ public class AssetSetter {
 				y = randomizer.nextInt(mapAreas[currLevel][3] - mapAreas[currLevel][2]) + mapAreas[currLevel][2];
 				tileNum = gp.tileM.mapTileNum[currLevel][x][y];
 			}while(gp.tileM.tile[tileNum].collision);
-			System.out.println(x + " " + y);
 			gp.aSetter.placeObject(new OBJ_Key(gp), x, y, currLevel);
 			gp.currObjIndex[currLevel]++;
 			gp.pHandler.goals[currLevel].add( new Point(x, y));			

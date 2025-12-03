@@ -51,6 +51,7 @@ public class KeyHandler implements KeyListener{
 				gp.player.searchPath = false;
 				gp.tileM.drawPath = false;
 			}else if(gp.player.hintCounter < gp.player.hintDuration){
+				gp.stunMonsters();
 				gp.player.searchPath = true;
 				gp.tileM.drawPath = true;
 				gp.player.hintTimer = 0;
@@ -100,6 +101,14 @@ public class KeyHandler implements KeyListener{
 	public void keyTyped(KeyEvent e) {
 		
 	}
-
+	
+	public void resetKeys() {
+		leftPressed = false;
+		rightPressed = false;
+		upPressed = false;
+		downPressed = false;
+		shiftPressed  = false;
+		enterPressed = false;
+	}
 
 }

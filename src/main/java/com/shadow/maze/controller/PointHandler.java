@@ -52,34 +52,34 @@ public class PointHandler {
 		int startRow = 2;
 		int endRow = 3; 
 		
-		mapAreas[level][startCol] = 15;
-		mapAreas[level][endCol] = 35;
-		mapAreas[level][startRow] = 15;
-		mapAreas[level][endRow] = 35;
+		mapAreas[level][startCol] = 16;
+		mapAreas[level][endCol] = 34;
+		mapAreas[level][startRow] = 16;
+		mapAreas[level][endRow] = 34;
+		
+		level++;
+		mapAreas[level][startCol] = 11;
+		mapAreas[level][endCol] = 39;
+		mapAreas[level][startRow] = 11;
+		mapAreas[level][endRow] = 39;
 		
 		level++;
 		mapAreas[level][startCol] = 10;
-		mapAreas[level][endCol] = 40;
-		mapAreas[level][startRow] = 10;
-		mapAreas[level][endRow] = 40;
+		mapAreas[level][endCol] = 39;
+		mapAreas[level][startRow] = 13;
+		mapAreas[level][endRow] = 41;
 		
 		level++;
-		mapAreas[level][startCol] = 9;
-		mapAreas[level][endCol] = 40;
-		mapAreas[level][startRow] = 12;
-		mapAreas[level][endRow] = 42;
+		mapAreas[level][startCol] = 10;
+		mapAreas[level][endCol] = 39;
+		mapAreas[level][startRow] = 5;
+		mapAreas[level][endRow] = 41;
 		
 		level++;
-		mapAreas[level][startCol] = 9;
-		mapAreas[level][endCol] = 40;
-		mapAreas[level][startRow] = 4;
-		mapAreas[level][endRow] = 42;
-		
-		level++;
-		mapAreas[level][startCol] = 0;
-		mapAreas[level][endCol] = 49;
-		mapAreas[level][startRow] = 0;
-		mapAreas[level][endRow] = 49;
+		mapAreas[level][startCol] = 1;
+		mapAreas[level][endCol] = 48;
+		mapAreas[level][startRow] = 1;
+		mapAreas[level][endRow] = 48;
 	}
 	
 	public Point getPlayerLoc(int index) {

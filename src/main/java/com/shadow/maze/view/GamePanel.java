@@ -184,6 +184,14 @@ public class GamePanel extends JPanel implements Runnable{
 		redo();
 	}
 	
+	public void stunMonsters() {
+		for(Object m: monsters[currentMap]) {
+			if(m != null) {
+				m.isStunned = true;
+			}
+		}
+	}
+	
 	//************ UPDATE AND PAINT ******************************//
 	
 	public void paintComponent(Graphics g) {

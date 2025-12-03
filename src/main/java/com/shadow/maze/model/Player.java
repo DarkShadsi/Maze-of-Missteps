@@ -186,6 +186,7 @@ public class Player extends Object{
 						gp.obj[gp.currentMap][objIndex] = null;
 						keys = 0;
 						upgrade();
+						keyH.resetKeys();
 						gp.gameFrame.showResultsPanel(true);
 					}else {
 						gp.ui.setSpeaker(obj);
@@ -259,6 +260,7 @@ public class Player extends Object{
 		if(health <= 0) {
 			gp.gameState = gp.stopped;
 			gp.gameFrame.showResultsPanel(false);
+			keyH.resetKeys();
 		}
 	}
 	
@@ -271,9 +273,12 @@ public class Player extends Object{
 		
 		if(gp.currentMap == gp.passedLevel) {
 			addHp = 1;
-			addSprintDuration = gp.currentMap*60;
+			addSprintDuration = (gp.currentMap+1)*60;
 			addhintDuration = 20;
 			addHintCooldown = 20;
+			if(gp.currentMap >= 2) {
+				addSprintDuration += gp.currentMap - 1;
+			}
 			gp.passedLevel++;
 		}
 		
@@ -287,5 +292,6 @@ public class Player extends Object{
 		hintCooldown += addHintCooldown;
 		hintDuration += addhintDuration;
 		gp.ui.setText(text);
+		
 	}
 }

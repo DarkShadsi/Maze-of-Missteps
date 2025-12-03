@@ -1,6 +1,5 @@
 package com.shadow.maze.util;
 
-import com.shadow.maze.view.GameFrame;
 import com.shadow.maze.view.GamePanel;
 import com.shadow.maze.model.Object;
 

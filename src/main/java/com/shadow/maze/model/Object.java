@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 import com.shadow.maze.util.UtilityTool;
 import com.shadow.maze.view.GamePanel;
@@ -46,6 +47,7 @@ public class Object {
 	public boolean collisionOn;
 	public boolean isInvincible;
 	public boolean isSlowed = false;
+	public boolean isStunned = false;
 	
 	//DIALOGUES
 	public String dialogues[][] = new String[10][20];
@@ -61,8 +63,12 @@ public class Object {
 	public int invincibiltyTimer = defaultInivincibiltyTimer;
 	public int slowTime = 0;
 	public int slowCounter = 0;
+	public int stunDuration = 90;
+	int stunCounter = 0;
 	public int updateTime = 3;
 	public int updateCounter = 0;
+	
+	Random randomizer = new Random();
 	
 	public Object(GamePanel gp) {
 		this.gp = gp;
@@ -132,11 +138,20 @@ public class Object {
 					break;
 				}
 			}
-			switch(direction) {
-				case "up": worldY -= speed; break;
-				case "down": worldY += speed;break;
-				case "left": worldX -= speed; break;
-				case "right": worldX += speed; break;
+			
+			if(isStunned) {
+				stunCounter ++;
+				if(stunCounter == stunDuration) {
+					stunCounter = 0;
+					isStunned = false;
+				}
+			}else {
+				switch(direction) {
+					case "up": worldY -= speed; break;
+					case "down": worldY += speed;break;
+					case "left": worldX -= speed; break;
+					case "right": worldX += speed; break;
+				}
 			}
 		}
 		

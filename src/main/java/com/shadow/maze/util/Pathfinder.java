@@ -1,14 +1,25 @@
 package com.shadow.maze.util;
 
 import java.util.ArrayList;
+import java.util.PriorityQueue;
+import java.util.Comparator;
 
 import com.shadow.maze.view.GamePanel;
+import com.shadow.maze.model.Node;
 import com.shadow.maze.model.Object;
 
 public class Pathfinder {
 	GamePanel gp;
 	Node[][] node;
-	ArrayList<Node> openList = new ArrayList<>();
+	PriorityQueue<Node> openList = new PriorityQueue<>(new Comparator<Node>() {
+		@Override
+		public int compare(Node n1, Node n2) {
+			if(n1.fCost != n2.fCost) {
+				return n1.fCost - n2.fCost;
+			}
+			return n1.gCost - n2.gCost;
+		}
+	});
 	public ArrayList<Node> pathList = new ArrayList<>();
 	Node startNode, goalNode, currentNode;
 	boolean goalReached;
@@ -146,31 +157,13 @@ public class Pathfinder {
 				openNode(node[col+1][row]);
 			}
 
-			
-			//FIND THE BEST NODE
-			int bestNodeIndex = 0;
-			int bestNodeFCost = 999;
-			
-			for(int i = 0; i < openList.size(); i++) {
-				//CHECK IF THIS NODE'S F COST IS BETTER
-				if(openList.get(i).fCost < bestNodeFCost) {
-					bestNodeIndex = i;
-					bestNodeFCost = openList.get(i).fCost;
-				}
-				//IF F COST IS EQUAL, COMPARE G COST
-				else if(openList.get(i).fCost == bestNodeFCost) {
-					if(openList.get(i).gCost < openList.get(bestNodeIndex).gCost) {
-						bestNodeIndex = i;
-					}
-				}
-			}
-
 			//IF THERE'S NO NODE IN THE OPENLIST, END THE LOOP
-			if(openList.size() == 0) {
+			if(openList.isEmpty()) {
 				break;
 			}
 			
-			currentNode = openList.get(bestNodeIndex);
+			// GET THE BEST NODE
+			currentNode = openList.poll();
 			
 			if(currentNode == goalNode) {
 				goalReached = true;
@@ -215,10 +208,3 @@ public class Pathfinder {
 	}
 	
 }
-
-
-
-
-
-
-

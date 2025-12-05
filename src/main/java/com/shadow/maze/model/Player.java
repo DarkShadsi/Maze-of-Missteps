@@ -280,9 +280,9 @@ public class Player extends Object{
 		}
 		
 		String text = "Max HP: + " + addHp + 
-						"/Sprint Duration: + " + String.format("%.2f", (double)addSprintDuration/sprintDuration) + "%" +
-						"/Hint Duration: + " + String.format("%.2f", (double)addhintDuration/hintDuration) + "%" +
-						"/Hint Cooldown: + " + String.format("%.2f", (double)addHintCooldown/hintCooldown) + "%";
+						"/Sprint Duration: + " + 100*addSprintDuration/sprintDuration + "%" +
+						"/Hint Duration: + " + 100*addhintDuration/hintDuration + "%" +
+						"/Hint Cooldown: + " + 100*addHintCooldown/hintCooldown + "%";
 
 		maxHealth += addHp;
 		sprintDuration += addSprintDuration;

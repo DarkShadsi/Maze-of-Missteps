@@ -19,6 +19,7 @@ public class GameFrame extends JFrame {
     private MenuPanel menuPanel;
     private LevelsPanel levelsPanel;
     private ResultPanel resultPanel;
+    private SplashPanel splashPanel;
 	public UtilityTool uTool;
     
     public int SCREENWIDTH;
@@ -31,24 +32,27 @@ public class GameFrame extends JFrame {
     
     public GameFrame() {
         initFrame();
+        showSplashPanel();
+        setVisible(true);
         initTools();
         initPanels();
-        showMainMenu();
-        //showResultsPanel(true);
-        setVisible(true);
     }
     
     //******************  SETTERS / GETTERS / INITIALIZERS ******************//
     
     private void initFrame() {
-        setUndecorated(true);  
+    	setUndecorated(true);  
         setResizable(false);
         setScreenResolutions();
+        cardLayout = new CardLayout();
+        panelHolder = new JPanel(cardLayout);
+        splashPanel = new SplashPanel(this);
+        addPanel(splashPanel, "SplashPanel");
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.add(panelHolder);
     }
     
     private void initPanels() {
-        cardLayout = new CardLayout();
-        panelHolder = new JPanel(cardLayout);
         mainMenuPanel = new MainMenuPanel(this);
         gamePanel = new GamePanel(this);
         menuPanel = new MenuPanel(this);
@@ -60,8 +64,6 @@ public class GameFrame extends JFrame {
         addPanel(menuPanel, "MenuPanel");
         addPanel(levelsPanel, "LevelsPanel");
         addPanel(resultPanel, "ResultPanel");
-        
-        this.add(panelHolder);
     }
     
     private void initTools() {
@@ -118,6 +120,11 @@ public class GameFrame extends JFrame {
     	resultPanel.setResult(passed);
     	resultPanel.drawUpgrades();
     	showPanel("ResultPanel");
+    }
+    
+    public void showSplashPanel() {
+    	showPanel("SplashPanel");
+    	splashPanel.startSplash();
     }
 
     public void startGame(int level) {

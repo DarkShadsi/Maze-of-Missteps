@@ -25,7 +25,7 @@ public class OBJ_Door extends Object{
 	
 	void setDialogues() {
 		int i = 0, j = 0;
-		dialogues[i][j] = "You need a key to unlock";
+		dialogues[i][j] = "You need more keys to unlock";
 	}
 	
 }

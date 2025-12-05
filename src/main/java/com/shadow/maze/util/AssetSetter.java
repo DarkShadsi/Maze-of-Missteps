@@ -73,8 +73,6 @@ public class AssetSetter {
 			updateTime = 1;
 			if(maxEnemies <= 6) maxEnemies = 7;
 		}
-		
-		System.out.println("Enemy count: " + maxEnemies);
 		for(int count = 0; count < maxEnemies; count++) {
 			do {
 				x = randomizer.nextInt(mapAreas[currLevel][1] - mapAreas[currLevel][0]) + mapAreas[currLevel][0];
@@ -88,7 +86,6 @@ public class AssetSetter {
 				gp.monsters[currLevel][count] = new MON_Bat(gp);
 			}
 			
-			System.out.println(gp.monsters[currLevel][count].name + " placed at x: "+ x + " " + y);
 			gp.monsters[currLevel][count].worldX = x*unitWidth;
 			gp.monsters[currLevel][count].worldY = y*unitHeight;
 			gp.monsters[currLevel][count].attack = attack;

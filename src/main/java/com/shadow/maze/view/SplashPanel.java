@@ -21,7 +21,7 @@ public class SplashPanel extends JPanel {
     private final int DISPLAY_DURATION = 70;
     
     private String gameName = "Maze of Missteps";
-    private String qoute = "In Every Turn Lies Another Mistakes";
+    private String qoute = "In Every Turn Lies Another Mistake";
     
     public SplashPanel(GameFrame gameFrame) {
         this.gameFrame = gameFrame;

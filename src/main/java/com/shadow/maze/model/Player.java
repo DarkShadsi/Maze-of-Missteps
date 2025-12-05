@@ -45,7 +45,7 @@ public class Player extends Object{
 	}
 	
 	public void setDefaultValues() {
-		maxHealth = 10;
+		maxHealth = 3;
 		health = maxHealth;
 		defaultSpeed = tileWidth/16;
 		speed = defaultSpeed;

@@ -62,15 +62,19 @@ public class AssetSetter {
 		}else if(currLevel == 2) {
 			attack = 2;
 			updateTime = 3;
+			if(maxEnemies <= 4) maxEnemies = 5;
 		}else if(currLevel == 3) {
 			attack = 3;
 			updateTime = 2;
 			updateTime = 2;
+			if(maxEnemies <= 5) maxEnemies = 6;
 		}else if(currLevel == 4){
 			attack = 3;
 			updateTime = 1;
+			if(maxEnemies <= 6) maxEnemies = 7;
 		}
 		
+		System.out.println("Enemy count: " + maxEnemies);
 		for(int count = 0; count < maxEnemies; count++) {
 			do {
 				x = randomizer.nextInt(mapAreas[currLevel][1] - mapAreas[currLevel][0]) + mapAreas[currLevel][0];
@@ -84,13 +88,13 @@ public class AssetSetter {
 				gp.monsters[currLevel][count] = new MON_Bat(gp);
 			}
 			
+			System.out.println(gp.monsters[currLevel][count].name + " placed at x: "+ x + " " + y);
 			gp.monsters[currLevel][count].worldX = x*unitWidth;
 			gp.monsters[currLevel][count].worldY = y*unitHeight;
 			gp.monsters[currLevel][count].attack = attack;
 			gp.monsters[currLevel][count].updateTime = updateTime;
 			gp.monsters[currLevel][count].stunDuration = gp.monsters[currLevel][count].stunDuration/updateTime;
 		}
-		
 	}
 	
 	void randomizePowerUps(int currLevel) {
@@ -181,7 +185,7 @@ public class AssetSetter {
 			break;
 		case 4:
 			gp.pHandler.exits[currLevel] = new Point(25, 48);
-			placeObject(new OBJ_Door(gp), 25, 48, currLevel);
+			placeObject(new OBJ_Door(gp), 25, 49, currLevel);
 			gp.currObjIndex[currLevel]++;
 			break;
 		}

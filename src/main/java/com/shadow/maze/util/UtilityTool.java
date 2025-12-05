@@ -81,7 +81,6 @@ public class UtilityTool {
 			y = randomizer.nextInt(mapAreas[3] - mapAreas[2]) + mapAreas[2];
 			tileNum = gamePanel.tileM.mapTileNum[gamePanel.currentMap][x][y];
 		}while(gamePanel.tileM.tile[tileNum].collision);
-		System.out.println(x + " " + y);
 
 		obj.worldX = x * gameFrame.GAMEUNITWIDTH;
 		obj.worldY = y * gameFrame.GAMEUNITHEIGHT;

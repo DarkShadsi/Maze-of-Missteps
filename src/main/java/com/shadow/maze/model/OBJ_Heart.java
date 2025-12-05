@@ -20,7 +20,6 @@ public class OBJ_Heart extends Object{
 	public void useItem(Object user) {
 		gp.ui.addMessage("+" + value + " life");
 		user.health += value;
-		System.out.println(user.health);
 	}
 
 }

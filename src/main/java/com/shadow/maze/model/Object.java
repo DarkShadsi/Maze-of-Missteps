@@ -119,24 +119,31 @@ public class Object {
 		
 		if(updateCounter%updateTime == 0) {
 			updateCounter = 1;
+			
 			if(collisionOn) {
-				switch(direction) {
-				case "up":
-					direction = "down";
-					break;
-				case "down":
-					direction = "up";
-					break;
-				case "left":
-					direction = "right";
-					break;
-				case "right":
-					direction = "left";
-					break;
-				}
-			}else if(isStunned) {
+				do {
+					int random = randomizer.nextInt(4);
+					switch(random) {
+					case 0:
+						direction = "down";
+						break;
+					case 1:
+						direction = "up";
+						break;
+					case 2:
+						direction = "right";
+						break;
+					case 3:
+						direction = "left";
+						break;
+					}
+					checkCollision();
+				}while(collisionOn);
+			}
+			
+			if(isStunned) {
 				stunCounter ++;
-				if(stunCounter == stunDuration) {
+				if(stunCounter >= stunDuration) {
 					stunCounter = 0;
 					isStunned = false;
 				}

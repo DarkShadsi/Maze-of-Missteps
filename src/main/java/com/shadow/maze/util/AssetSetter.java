@@ -66,7 +66,6 @@ public class AssetSetter {
 		}else if(currLevel == 3) {
 			attack = 3;
 			updateTime = 2;
-			updateTime = 2;
 			if(maxEnemies <= 5) maxEnemies = 6;
 		}else if(currLevel == 4){
 			attack = 3;
@@ -182,7 +181,7 @@ public class AssetSetter {
 			break;
 		case 4:
 			gp.pHandler.exits[currLevel] = new Point(25, 48);
-			placeObject(new OBJ_Door(gp), 25, 49, currLevel);
+			placeObject(new OBJ_Door(gp), 25, 48, currLevel);
 			gp.currObjIndex[currLevel]++;
 			break;
 		}

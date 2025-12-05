@@ -42,7 +42,7 @@ public class CollisionHandler {
 			break;
 		case "down":
 			entityBotRow = (entityBotWorldY + entity.speed)/unitHeight;
-			if(entityBotRow > 50) {
+			if(entityBotRow >= gp.ROWS) {
 				entity.collisionOn = true;
 				break;
 			}
@@ -66,7 +66,7 @@ public class CollisionHandler {
 			break;
 		case "right":
 			entityRightCol = (entityRightWorldX + entity.speed)/unitWidth;
-			if(entityRightCol > 50) {
+			if(entityRightCol >= gp.ROWS) {
 				entity.collisionOn = true;
 				break;
 			}

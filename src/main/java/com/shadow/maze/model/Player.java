@@ -45,7 +45,7 @@ public class Player extends Object{
 	}
 	
 	public void setDefaultValues() {
-		maxHealth = 3;
+		maxHealth = 10;
 		health = maxHealth;
 		defaultSpeed = tileWidth/16;
 		speed = defaultSpeed;
@@ -171,9 +171,6 @@ public class Player extends Object{
 		
 		g2.drawImage(image, tempScreenX, tempScreenY, null);
 		
-		g2.setColor(Color.RED);
-		g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
-		
 	}
 	
 	public void interactObject(int objIndex) {
@@ -210,7 +207,7 @@ public class Player extends Object{
 		
 		Point goal = gp.pHandler.getGoal();
 		if(goal != null) {
-			gp.pFinder.setNodes(col, row, goal.x, goal.y);
+			gp.pFinder.setNodes(col, row, goal.x, goal.y, this);
 			gp.pFinder.search();
 			gp.tileM.goalPath = gp.pFinder.copyPath();
 		}

@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import com.shadow.maze.model.Object;
 import com.shadow.maze.model.Tile;
 import com.shadow.maze.view.GamePanel;
 
@@ -185,6 +186,5 @@ public class TileManager {
 				
 			}
 		}
-		
 	}
 }

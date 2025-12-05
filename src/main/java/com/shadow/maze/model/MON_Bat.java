@@ -21,9 +21,9 @@ public class MON_Bat extends Object{
 		defaultSpeed = 3;
 		speed = defaultSpeed;
 		attack = 2;
-		
-		solidArea.x = 5;
-		solidArea.y = 10;
+
+		solidArea.x = tileWidth/6;
+		solidArea.y = tileHeight/3;
 		solidArea.height = tileHeight - solidArea.y;
 		solidArea.width = tileWidth - solidArea.x*2;
 		solidAreaDefaultX = solidArea.x;

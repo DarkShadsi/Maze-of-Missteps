@@ -104,9 +104,6 @@ public class Object {
 		}
 		g2.drawImage(image, tempScreenX, tempScreenY, null);
 		
-		g2.setColor(Color.RED);
-		g2.drawRect(tempScreenX + solidArea.x, tempScreenY + solidArea.y, solidArea.width, solidArea.height);
-		
 	}
 	
 	//******************** INTERACTIONS *****************************//
@@ -137,9 +134,7 @@ public class Object {
 					direction = "left";
 					break;
 				}
-			}
-			
-			if(isStunned) {
+			}else if(isStunned) {
 				stunCounter ++;
 				if(stunCounter == stunDuration) {
 					stunCounter = 0;
@@ -194,12 +189,17 @@ public class Object {
 	}
 	public void searchPath() {
 		
-		int startCol = (worldX + solidArea.x)/tileWidth;
-		int startRow = (worldY + solidArea.y)/tileHeight;
-		int goalCol = (gp.player.worldX + gp.player.solidArea.x)/tileWidth;
-		int goalRow = (gp.player.worldY + gp.player.solidArea.y)/tileHeight;
+		int enCenterX = worldX + solidArea.x + solidArea.width/2;
+		int enCenterY = worldY + solidArea.y + solidArea.height/2;
+		int pCenterX = gp.player.worldX + gp.player.solidArea.x + gp.player.solidArea.width/2;
+		int pCenterY = gp.player.worldY + gp.player.solidArea.y + gp.player.solidArea.height/2;
 		
-		gp.pFinder.setNodes(startCol, startRow, goalCol, goalRow);
+		int startCol = enCenterX/tileWidth;
+		int startRow = enCenterY/tileHeight;
+		int goalCol = pCenterX/tileWidth;
+		int goalRow = pCenterY/tileHeight;
+		
+		gp.pFinder.setNodes(startCol, startRow, goalCol, goalRow, this);
 		
 		if(gp.pFinder.search()) {
 			//NEXT WORLDX AND WORLDY
@@ -246,15 +246,26 @@ public class Object {
 				if(collisionOn) {
 					direction = "right";
 				}
+			}else { //RANDOMIZE DIRECTION IF NONE OF THE CASES ARE ACCEPTED
+				switch(randomizer.nextInt(4)) {
+				case 0:
+					direction = "up";
+					break;
+				case 1:
+					direction = "down";
+					break;
+				case 2:
+					direction = "left";
+					break;
+				case 3:
+					direction = "right";
+					break;
+				}
 			}
 		}
 	}
 	
 	public void checkCollision() {
-		
-		//TEMPORARILY CHANGE DIRECTION IF KNOCKBACKED
-		String currentDirection = direction;
-		
 		// CHECKS TILE COLLISION
 		collisionOn = false;
 		gp.colHandler.checkTile(this);
@@ -269,8 +280,6 @@ public class Object {
 				gp.gameFrame.uTool.teleportObject(gp.player, gp);
 			}
 		}
-		
-		direction = currentDirection;
 		
 	}
 	

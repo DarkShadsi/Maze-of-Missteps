@@ -13,6 +13,7 @@ public class Pathfinder {
 	Node startNode, goalNode, currentNode;
 	boolean goalReached;
 	int step = 0;
+	Object finder;
 	
 	public Pathfinder(GamePanel gp) {
 		this.gp = gp;
@@ -46,7 +47,8 @@ public class Pathfinder {
 		
 	}
 	
-	public void setNodes(int startCol, int startRow, int goalCol, int goalRow) {
+	public void setNodes(int startCol, int startRow, int goalCol, int goalRow, Object finder) {
+		this.finder = finder;
 		resetNodes();
 		
 		//set start and goal node
@@ -77,6 +79,20 @@ public class Pathfinder {
 				}
 			}
 		}
+		
+		if(finder == gp.player) {
+			for(Object mon: gp.monsters[gp.currentMap]) {
+				if(mon != null && mon != finder) {
+					int centerX = mon.worldX + mon.solidArea.x + mon.solidArea.width / 2;
+					int centerY = mon.worldY + mon.solidArea.y + mon.solidArea.height / 2;
+
+					int col = centerX / gp.gameFrame.GAMEUNITWIDTH;
+					int row = centerY / gp.gameFrame.GAMEUNITHEIGHT;
+					node[col][row].solid = true;
+				}
+			}
+		}
+		
 	}
 	
 	void getCost(Node node) {

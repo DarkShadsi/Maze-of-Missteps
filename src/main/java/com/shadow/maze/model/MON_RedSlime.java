@@ -22,9 +22,9 @@ public class MON_RedSlime extends Object{
 		speed = defaultSpeed;
 		attack = 1;
 		
-		solidArea.x = 5;
-		solidArea.y = 10;
-		solidArea.height = tileHeight - solidArea.y;
+		solidArea.x = tileWidth/6;
+		solidArea.y = tileHeight/4;
+		solidArea.height = tileHeight - tileHeight/3;
 		solidArea.width = tileWidth - solidArea.x*2;
 		solidAreaDefaultX = solidArea.x;
 		solidAreaDefaultY = solidArea.y;

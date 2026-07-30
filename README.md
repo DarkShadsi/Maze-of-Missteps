@@ -45,7 +45,7 @@ cd Maze-of-Missteps
 ### Build and Run with Maven
 ```bash
 mvn clean install
-mvn exec:java -Dexec.mainClass="com.shadow.maze.MazeOfNoReturn"
+mvn exec:java
 ```
 
 ### Run in Eclipse

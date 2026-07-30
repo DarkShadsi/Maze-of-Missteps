@@ -19,5 +19,6 @@ public class OBJ_SpikeTrap extends Object{
 		gp.ui.addMessage("You stepped on a spike trap");
 		user.health -= value;
 		user.isInvincible = true;
+		user.isFlickering = true;
 	}
 }

@@ -23,7 +23,6 @@ public class Object {
 	public int attack;
 	public int maxHealth;
 	public int health;
-	final int player = 0;
 	final int monster = 1;
 	final int consumable = 3;
 	public final int buff = 4;
@@ -41,6 +40,7 @@ public class Object {
 	
 	//IMAGE
 	public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
+	public BufferedImage shieldEffect;
 	
 	//STATE
 	public String direction;
@@ -48,6 +48,7 @@ public class Object {
 	public boolean isInvincible;
 	public boolean isSlowed = false;
 	public boolean isStunned = false;
+	public boolean isFlickering;
 	
 	//DIALOGUES
 	public String dialogues[][] = new String[10][20];
@@ -76,6 +77,7 @@ public class Object {
 		this.tileWidth = gp.gameFrame.GAMEUNITWIDTH;
 		this.tileHeight = gp.gameFrame.GAMEUNITHEIGHT;
 		solidArea = new Rectangle(0, 0, tileWidth, tileHeight);
+		this.shieldEffect = uTool.scaleImage("/objects/shield_effect.png", tileWidth + 10, tileHeight + 10);
 	}
 	
 	public void draw(Graphics2D g2) {
@@ -102,7 +104,14 @@ public class Object {
 		}else {
 			image = down1;
 		}
+
 		g2.drawImage(image, tempScreenX, tempScreenY, null);
+
+		if (isInvincible) {
+			tempScreenX -= 5;
+			tempScreenY -= 5;
+			g2.drawImage(shieldEffect, tempScreenX,tempScreenY, null);
+		}
 		
 	}
 	
@@ -284,6 +293,7 @@ public class Object {
 			if(!gp.player.isInvincible) {
 				gp.player.health -= attack;
 				gp.player.isInvincible = true;
+				gp.player.isFlickering = true;
 				gp.gameFrame.uTool.teleportObject(gp.player, gp);
 			}
 		}

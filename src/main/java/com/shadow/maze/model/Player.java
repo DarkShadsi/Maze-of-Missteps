@@ -1,8 +1,6 @@
 package com.shadow.maze.model;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 import com.shadow.maze.controller.KeyHandler;
@@ -24,6 +22,8 @@ public class Player extends Object{
 	public int hintTimer = 0;
 	public int sprintCounter = 0;
 	public int hintCounter = 0;
+	private int flickerTimer = 0;
+	private int flickPhase = 0;
 	
 	public Player(GamePanel gp, KeyHandler keyH) {
 		super(gp);
@@ -67,6 +67,7 @@ public class Player extends Object{
 		keys = 0;
 		direction = "down";
 		sprintCounter = 0;
+		flickerTimer = 0;
 		invincibiltyTimer = defaultInivincibiltyTimer;
 	}
 	
@@ -168,8 +169,27 @@ public class Player extends Object{
 				image = (spriteNum == 1)? right1: right2;
 				break;
 		}
-		
+
+		float alpha = 1.0f;
+		switch (flickPhase) {
+			case 1:
+				alpha = 0.5f;
+				break;
+			case 2:
+				alpha = 0.0f;
+				break;
+		}
+		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+
 		g2.drawImage(image, tempScreenX, tempScreenY, null);
+
+		if (isInvincible && !isFlickering) {
+			tempScreenX -= 5;
+			tempScreenY -= 5;
+			g2.drawImage(shieldEffect, tempScreenX,tempScreenY, null);
+		}
+
+		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
 		
 	}
 	
@@ -224,6 +244,7 @@ public class Player extends Object{
 				isInvincible = false;
 			}
 		}
+
 		if(isSlowed) {
 			slowCounter++;
 			if(slowCounter >= slowTime) {
@@ -238,6 +259,15 @@ public class Player extends Object{
 			if(!isSlowed) {
 				speed = defaultSpeed;
 			}
+		}
+
+		if (isFlickering) {
+			flickerTimer ++;
+			if (flickerTimer == 60) {
+				isFlickering = false;
+				flickerTimer = 0;
+			}
+			flickPhase = flickerTimer % 9;
 		}
 		
 		if(searchPath && hintCounter < hintDuration) {

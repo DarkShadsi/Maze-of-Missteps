@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
+import com.shadow.maze.controller.MusicHandler;
 import com.shadow.maze.util.UtilityTool;
 import com.shadow.maze.view.GamePanel;
 
@@ -291,6 +292,7 @@ public class Object {
 		//CHECKS COLLISION WITH THE PLAYER & GIVE DAMAGE UPON CONTACT
 		if(gp.colHandler.checkPlayer(this) && type ==  monster) {
 			if(!gp.player.isInvincible) {
+				MusicHandler.playHurtSound();
 				gp.player.health -= attack;
 				gp.player.isInvincible = true;
 				gp.player.isFlickering = true;

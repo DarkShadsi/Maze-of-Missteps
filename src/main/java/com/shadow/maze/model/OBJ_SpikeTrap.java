@@ -1,5 +1,6 @@
 package com.shadow.maze.model;
 
+import com.shadow.maze.controller.MusicHandler;
 import com.shadow.maze.view.GamePanel;
 
 public class OBJ_SpikeTrap extends Object{
@@ -17,6 +18,7 @@ public class OBJ_SpikeTrap extends Object{
 	
 	public void useItem(Object user) {
 		gp.ui.addMessage("You stepped on a spike trap");
+		MusicHandler.playHurtSound();
 		user.health -= value;
 		user.isInvincible = true;
 		user.isFlickering = true;

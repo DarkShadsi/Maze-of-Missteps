@@ -1,5 +1,6 @@
 package com.shadow.maze.model;
 
+import com.shadow.maze.controller.MusicHandler;
 import com.shadow.maze.view.GamePanel;
 
 public class OBJ_Key extends Object{
@@ -17,6 +18,7 @@ public class OBJ_Key extends Object{
 	
 	public void useItem(Object user) {
 		gp.ui.addMessage("You picked up a key!");
+		MusicHandler.playKeySound();
 		gp.pHandler.removeGoal(this.worldX, this.worldY);
 	}
 }

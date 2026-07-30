@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 import com.shadow.maze.controller.KeyHandler;
+import com.shadow.maze.controller.MusicHandler;
 import com.shadow.maze.view.GamePanel;
 
 public class Player extends Object{
@@ -199,6 +200,7 @@ public class Player extends Object{
 			if(keyH.enterPressed) {
 				if(obj.name.equals("Door")) {
 					if(keys >= 3) {
+						MusicHandler.playSuccessSound();
 						gp.gameState = gp.stopped;
 						gp.obj[gp.currentMap][objIndex] = null;
 						keys = 0;

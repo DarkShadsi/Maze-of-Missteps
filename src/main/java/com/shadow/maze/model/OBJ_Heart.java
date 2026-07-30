@@ -1,5 +1,6 @@
 package com.shadow.maze.model;
 
+import com.shadow.maze.controller.MusicHandler;
 import com.shadow.maze.view.GamePanel;
 
 public class OBJ_Heart extends Object{
@@ -19,6 +20,7 @@ public class OBJ_Heart extends Object{
 
 	public void useItem(Object user) {
 		gp.ui.addMessage("+" + value + " life");
+		MusicHandler.playKeySound();
 		user.health += value;
 	}
 

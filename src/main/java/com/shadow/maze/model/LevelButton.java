@@ -2,6 +2,7 @@ package com.shadow.maze.model;
 
 import javax.swing.*;
 
+import com.shadow.maze.controller.MusicHandler;
 import com.shadow.maze.view.GameFrame;
 
 import java.awt.event.ActionEvent;
@@ -59,10 +60,10 @@ public class LevelButton extends JButton{
 		});
     	
     	this.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				gameFrame.startGame(level);
+                MusicHandler.playClickSound();
+                gameFrame.startGame(level);
 			}
 		});
     }

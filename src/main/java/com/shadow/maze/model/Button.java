@@ -2,8 +2,11 @@ package com.shadow.maze.model;
 
 import javax.swing.*;
 
+import com.shadow.maze.controller.MusicHandler;
 import com.shadow.maze.view.GameFrame;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -56,6 +59,12 @@ public class Button extends JButton{
     			if(hover) setIcon(icon1);
     		}
 		});
+        this.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MusicHandler.playClickSound();
+            }
+        });
     }
     
     public void setHover(boolean hover) {
